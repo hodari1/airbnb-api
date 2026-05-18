@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { defineConfig } from "prisma/config";
-import { PgDialect } from "@prisma/adapter-pg";
+import { PrismaPg } from "@prisma/adapter-pg";
 import pg from "pg";
 
 const pool = new pg.Pool({
@@ -13,6 +13,6 @@ export default defineConfig({
     seed: "tsx prisma/seed.ts",
   },
   datasource: {
-    adapter: new PgDialect({ pool }),
+    adapter: new PrismaPg(pool),
   },
 });
