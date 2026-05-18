@@ -12,7 +12,7 @@ const options: swaggerJsdoc.Options = {
     },
     servers: [
       {
-        url: "http://localhost:3000",
+        url: process.env["API_URL"] || "http://localhost:3000", // ✅ dynamic URL
       },
     ],
     components: {
@@ -25,7 +25,10 @@ const options: swaggerJsdoc.Options = {
       },
     },
   },
-  apis: ["./src/routes/*.ts"],
+  apis: [
+    "./src/routes/v1/*.ts",   // ✅ dev: TypeScript files
+    "./dist/routes/v1/*.js",  // ✅ prod: compiled JS files
+  ],
 };
 
 const swaggerSpec = swaggerJsdoc(options);
@@ -36,5 +39,5 @@ export const setupSwagger = (app: Express) => {
     res.setHeader("Content-Type", "application/json");
     res.send(swaggerSpec);
   });
-  console.log("📚 Swagger docs available at http://localhost:3000/api-docs");
+  console.log(`📚 Swagger docs available at ${process.env["API_URL"] || "http://localhost:3000"}/api-docs`);
 };
