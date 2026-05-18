@@ -1,5 +1,11 @@
 import "dotenv/config";
 import { defineConfig } from "prisma/config";
+import { PgDialect } from "@prisma/adapter-pg";
+import pg from "pg";
+
+const pool = new pg.Pool({
+  connectionString: process.env.DATABASE_URL,
+});
 
 export default defineConfig({
   schema: "./prisma/schema.prisma",
@@ -7,6 +13,6 @@ export default defineConfig({
     seed: "tsx prisma/seed.ts",
   },
   datasource: {
-    url: process.env.DATABASE_URL!,
+    adapter: new PgDialect({ pool }),
   },
 });
