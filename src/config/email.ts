@@ -1,16 +1,9 @@
 import nodemailer from "nodemailer";
 
-console.log("📧 Email config:", {
-  host: process.env["EMAIL_HOST"],
-  port: process.env["EMAIL_PORT"],
-  user: process.env["EMAIL_USER"],
-  passLength: process.env["EMAIL_PASS"]?.length,
-});
-
 const transporter = nodemailer.createTransport({
   host: process.env["EMAIL_HOST"],
-  port: Number(process.env["EMAIL_PORT"]),
-  secure: false,
+  port: 465,
+  secure: true,  // true for 465
   auth: {
     user: process.env["EMAIL_USER"],
     pass: process.env["EMAIL_PASS"],
