@@ -1,30 +1,29 @@
-import nodemailer from "nodemailer";
-
-const transporter = nodemailer.createTransport({
-  host: process.env["EMAIL_HOST"],
-  port: 465,
-  secure: true,  // true for 465
-  auth: {
-    user: process.env["EMAIL_USER"],
-    pass: process.env["EMAIL_PASS"],
-  },
-});
-
 export const sendEmail = async (
   to: string,
   subject: string,
   html: string
 ): Promise<void> => {
   console.log("📤 Attempting to send email to:", to);
-  try {
-    const result = await transporter.sendMail({
-      from: process.env["EMAIL_FROM"],
-      to,
+
+  const response = await fetch("https://api.brevo.com/v3/smtp/email", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "api-key": process.env["BREVO_API_KEY"] as string,
+    },
+    body: JSON.stringify({
+      sender: { name: "Airbnb", email: "hodaribaba@gmail.com" },
+      to: [{ email: to }],
       subject,
-      html,
-    });
-    console.log("✅ Email sent:", result.messageId);
-  } catch (error) {
+      htmlContent: html,
+    }),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
     console.error("❌ Email error:", error);
+    throw new Error("Failed to send email");
   }
+
+  console.log("✅ Email sent successfully");
 };
