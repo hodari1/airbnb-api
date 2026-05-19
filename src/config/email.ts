@@ -1,5 +1,12 @@
 import nodemailer from "nodemailer";
 
+console.log("📧 Email config:", {
+  host: process.env["EMAIL_HOST"],
+  port: process.env["EMAIL_PORT"],
+  user: process.env["EMAIL_USER"],
+  passLength: process.env["EMAIL_PASS"]?.length,
+});
+
 const transporter = nodemailer.createTransport({
   host: process.env["EMAIL_HOST"],
   port: Number(process.env["EMAIL_PORT"]),
@@ -15,10 +22,16 @@ export const sendEmail = async (
   subject: string,
   html: string
 ): Promise<void> => {
-  await transporter.sendMail({
-    from: process.env["EMAIL_FROM"],
-    to,
-    subject,
-    html,
-  });
+  console.log("📤 Attempting to send email to:", to);
+  try {
+    const result = await transporter.sendMail({
+      from: process.env["EMAIL_FROM"],
+      to,
+      subject,
+      html,
+    });
+    console.log("✅ Email sent:", result.messageId);
+  } catch (error) {
+    console.error("❌ Email error:", error);
+  }
 };
