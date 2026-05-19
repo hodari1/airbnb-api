@@ -7,6 +7,7 @@ import { errorHandler } from "./middlewares/errorHandler";
 import v1Router from "./routes/v1/index";
 
 const app = express();
+app.set("trust proxy", 1);
 const PORT = Number(process.env["PORT"]) || 3000;
 
 // Compression
