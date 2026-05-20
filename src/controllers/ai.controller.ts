@@ -1,9 +1,11 @@
-import { Request, Response } from "express";
-import { HumanMessage, SystemMessage } from "@langchain/core/messages";
+import { Response } from "express";
+import { HumanMessage } from "@langchain/core/messages";
 import { model, filterModel } from "../config/ai";
-import prisma from "../prisma"; 
-import { getCache, setCache, clearCache } from "../config/cache"; 
-export const aiSearch = async (req: Request, res: Response): Promise<void> => {
+import prisma from "../prisma";
+import { getCache, setCache, clearCache } from "../config/cache";
+import { AuthRequest } from "../middlewares/auth.middleware";
+
+export const aiSearch = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const { query } = req.body;
     const page = Math.max(1, parseInt(req.query["page"] as string) || 1);
@@ -15,7 +17,6 @@ export const aiSearch = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    // Step 1 — Extract filters using temperature: 0 model
     const extractionPrompt = `
 You are a search filter extractor for a property rental platform.
 Extract search filters from the user's query and return ONLY a JSON object.
@@ -38,7 +39,6 @@ User query: "${query}"
       new HumanMessage(extractionPrompt),
     ]);
 
-    // Step 2 — Parse AI response safely
     let filters: {
       location: string | null;
       type: string | null;
@@ -55,7 +55,6 @@ User query: "${query}"
       return;
     }
 
-    // Step 3 — Check if all filters are null
     const hasFilters = Object.values(filters).some((v) => v !== null);
     if (!hasFilters) {
       res.status(400).json({
@@ -64,7 +63,6 @@ User query: "${query}"
       return;
     }
 
-    // Step 4 — Build Prisma where clause
     const where: any = {};
     if (filters.location) {
       where.location = { contains: filters.location, mode: "insensitive" };
@@ -79,7 +77,6 @@ User query: "${query}"
       where.guests = { gte: filters.guests };
     }
 
-    // Step 5 — Fetch listings + count simultaneously
     const [listings, total] = await Promise.all([
       prisma.listing.findMany({
         where,
@@ -119,33 +116,29 @@ User query: "${query}"
   }
 };
 
-export const generateDescription = async (req: Request, res: Response): Promise<void> => {
+export const generateDescription = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const { id } = req.params;
+    const id = req.params["id"] as string;
     const { tone = "professional" } = req.body;
     const userId = req.userId;
 
-    // Step 1 — Validate tone
     const validTones = ["professional", "casual", "luxury"];
     if (!validTones.includes(tone)) {
       res.status(400).json({ error: "tone must be professional, casual, or luxury" });
       return;
     }
 
-    // Step 2 — Fetch listing from DB
     const listing = await prisma.listing.findUnique({ where: { id } });
     if (!listing) {
       res.status(404).json({ error: "Listing not found" });
       return;
     }
 
-    // Step 3 — Check ownership
     if (listing.hostId !== userId) {
       res.status(403).json({ error: "You are not the owner of this listing" });
       return;
     }
 
-    // Step 4 — Build tone-specific prompt
     const toneInstructions = {
       professional: "Write in a formal, clear, and business-like tone. Focus on facts and features.",
       casual: "Write in a friendly, relaxed, and conversational tone. Make it feel warm and inviting.",
@@ -167,11 +160,9 @@ Property details:
 - Amenities: ${listing.amenities.join(", ")}
 `;
 
-    // Step 5 — Generate description
     const response = await model.invoke([new HumanMessage(prompt)]);
     const description = (response.content as string).trim();
 
-    // Step 6 — Save to DB
     const updatedListing = await prisma.listing.update({
       where: { id },
       data: { description },
@@ -194,10 +185,10 @@ Property details:
 };
 
 // Part 3 — Chatbot
-export const chatbot = async (req: Request, res: Response): Promise<void> => {};
+export const chatbot = async (req: AuthRequest, res: Response): Promise<void> => {};
 
 // Part 4 — Recommendations
-export const recommend = async (req: Request, res: Response): Promise<void> => {};
+export const recommend = async (req: AuthRequest, res: Response): Promise<void> => {};
 
 // Part 5 — Review Summary
-export const reviewSummary = async (req: Request, res: Response): Promise<void> => {};
+export const reviewSummary = async (req: AuthRequest, res: Response): Promise<void> => {};
