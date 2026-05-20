@@ -5,6 +5,7 @@ import { setupSwagger } from "./config/swagger";
 import { generalLimiter, strictLimiter } from "./middlewares/rateLimiter";
 import { errorHandler } from "./middlewares/errorHandler";
 import v1Router from "./routes/v1/index";
+import aiRoutes from "./routes/v1/ai.routes";
 
 const app = express();
 app.set("trust proxy", 1);
@@ -52,6 +53,7 @@ app.use("/api/v1/auth/login", strictLimiter);
 app.use("/api/v1/bookings", strictLimiter);
 app.use("/api/v1/listings", strictLimiter);
 app.use("/api/v1/reviews", strictLimiter);
+app.use("/api/v1/ai", aiRoutes);
 
 // Routes
 app.use("/api/v1", v1Router);
