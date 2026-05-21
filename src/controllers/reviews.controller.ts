@@ -2,12 +2,12 @@ import { Response, NextFunction } from "express";
 import prisma from "../prisma";
 import { AuthRequest } from "../middlewares/auth.middleware";
 import { createReviewSchema } from "../validators/reviews.validator";
-import { getCache, setCache, clearCacheByPrefix } from "../config/cache";
+import { getCache, setCache, clearCacheByPrefix, clearCache } from "../config/cache";
 
 // GET /listings/:id/reviews
 export const getListingReviews = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
-    const listingId = req.params.id as string; // ✅ cast to string
+    const listingId = req.params.id as string;
     const page = parseInt(req.query.page as string) || 1;
     const limit = parseInt(req.query.limit as string) || 10;
     const skip = (page - 1) * limit;
@@ -53,7 +53,7 @@ export const getListingReviews = async (req: AuthRequest, res: Response, next: N
 // POST /listings/:id/reviews
 export const createReview = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
-    const listingId = req.params.id as string; // ✅ cast to string
+    const listingId = req.params.id as string;
     const userId = req.userId!;
 
     const listing = await prisma.listing.findUnique({ where: { id: listingId } });
@@ -64,7 +64,7 @@ export const createReview = async (req: AuthRequest, res: Response, next: NextFu
 
     const parsed = createReviewSchema.safeParse(req.body);
     if (!parsed.success) {
-      res.status(400).json({ error: parsed.error.issues }); // ✅ issues not errors
+      res.status(400).json({ error: parsed.error.issues });
       return;
     }
 
@@ -84,6 +84,7 @@ export const createReview = async (req: AuthRequest, res: Response, next: NextFu
     });
 
     clearCacheByPrefix(`reviews:listing:${listingId}`);
+    clearCache(`review-summary:${listingId}`); // ✅ clear AI summary cache
     res.status(201).json(review);
   } catch (error) {
     next(error);
@@ -93,7 +94,7 @@ export const createReview = async (req: AuthRequest, res: Response, next: NextFu
 // DELETE /reviews/:id
 export const deleteReview = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
-    const id = req.params.id as string; // ✅ cast to string
+    const id = req.params.id as string;
     const userId = req.userId!;
     const role = req.role!;
 
@@ -111,6 +112,7 @@ export const deleteReview = async (req: AuthRequest, res: Response, next: NextFu
     await prisma.review.delete({ where: { id } });
 
     clearCacheByPrefix(`reviews:listing:${review.listingId}`);
+    clearCache(`review-summary:${review.listingId}`); // ✅ clear AI summary cache on delete too
     res.json({ message: "Review deleted successfully" });
   } catch (error) {
     next(error);
