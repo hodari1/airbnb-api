@@ -23,8 +23,9 @@ export const getListings = async (req: AuthRequest, res: Response, next: NextFun
         skip,
         take: limit,
         include: {
-          host: { select: { id: true, name: true, email: true, avatar: true } },
-        },
+  host: { select: { id: true, name: true, email: true, avatar: true } },
+  photos: true,
+},
         orderBy: { createdAt: "desc" },
       }),
       prisma.listing.count(),
@@ -66,9 +67,10 @@ export const searchListings = async (req: AuthRequest, res: Response, next: Next
         where,
         skip,
         take: limit,
-        include: {
-          host: { select: { id: true, name: true, email: true, avatar: true } },
-        },
+       include: {
+  host: { select: { id: true, name: true, email: true, avatar: true } },
+  photos: true,
+},
         orderBy: { createdAt: "desc" },
       }),
       prisma.listing.count({ where }),
