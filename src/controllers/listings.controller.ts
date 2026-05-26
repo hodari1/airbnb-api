@@ -23,9 +23,9 @@ export const getListings = async (req: AuthRequest, res: Response, next: NextFun
         skip,
         take: limit,
         include: {
-  host: { select: { id: true, name: true, email: true, avatar: true } },
-  photos: true,
-},
+          host: { select: { id: true, name: true, email: true, avatar: true } },
+          photos: true,
+        },
         orderBy: { createdAt: "desc" },
       }),
       prisma.listing.count(),
@@ -67,10 +67,10 @@ export const searchListings = async (req: AuthRequest, res: Response, next: Next
         where,
         skip,
         take: limit,
-       include: {
-  host: { select: { id: true, name: true, email: true, avatar: true } },
-  photos: true,
-},
+        include: {
+          host: { select: { id: true, name: true, email: true, avatar: true } },
+          photos: true,
+        },
         orderBy: { createdAt: "desc" },
       }),
       prisma.listing.count({ where }),
@@ -127,12 +127,13 @@ export const getListingsStats = async (req: AuthRequest, res: Response, next: Ne
 // GET /listings/:id
 export const getListing = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
-    const id = req.params.id as string; // ✅ cast to string
+    const id = req.params.id as string;
 
     const listing = await prisma.listing.findUnique({
       where: { id },
       include: {
         host: { select: { id: true, name: true, email: true, avatar: true } },
+        photos: true,
         reviews: {
           include: {
             user: { select: { id: true, name: true, avatar: true } },
@@ -159,7 +160,7 @@ export const createListing = async (req: AuthRequest, res: Response, next: NextF
   try {
     const parsed = createListingSchema.safeParse(req.body);
     if (!parsed.success) {
-      res.status(400).json({ error: parsed.error.issues }); // ✅ issues not errors
+      res.status(400).json({ error: parsed.error.issues });
       return;
     }
 
@@ -183,7 +184,7 @@ export const createListing = async (req: AuthRequest, res: Response, next: NextF
 // PUT /listings/:id
 export const updateListing = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
-    const id = req.params.id as string; // ✅ cast to string
+    const id = req.params.id as string;
 
     const existing = await prisma.listing.findUnique({ where: { id } });
     if (!existing) {
@@ -198,7 +199,7 @@ export const updateListing = async (req: AuthRequest, res: Response, next: NextF
 
     const parsed = updateListingSchema.safeParse(req.body);
     if (!parsed.success) {
-      res.status(400).json({ error: parsed.error.issues }); // ✅ issues not errors
+      res.status(400).json({ error: parsed.error.issues });
       return;
     }
 
@@ -220,7 +221,7 @@ export const updateListing = async (req: AuthRequest, res: Response, next: NextF
 // DELETE /listings/:id
 export const deleteListing = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
-    const id = req.params.id as string; // ✅ cast to string
+    const id = req.params.id as string;
 
     const existing = await prisma.listing.findUnique({ where: { id } });
     if (!existing) {
