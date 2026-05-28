@@ -8,13 +8,13 @@ datasource db {
 }
 
 model User {
-  id               String    @id @default(uuid())
+  id               String         @id @default(uuid())
   name             String
-  email            String    @unique
-  username         String    @unique
+  email            String         @unique
+  username         String         @unique
   phone            String
-  password         String    @default("")
-  role             Role      @default(GUEST)
+  password         String         @default("")
+  role             Role           @default(GUEST)
   avatar           String?
   avatarPublicId   String?
   bio              String?
@@ -24,9 +24,12 @@ model User {
   bookings         Booking[]
   reviews          Review[]
   profile          Profile?
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
   wishlists        Wishlist[]
+  notifications    Notification[]
+  sentMessages     Message[]      @relation("Sender")
+  receivedMessages Message[]      @relation("Receiver")
 
   @@index([role])
 }
@@ -46,6 +49,7 @@ model Listing {
   bookings      Booking[]
   reviews       Review[]
   photos        ListingPhoto[]
+  notifications Notification[]
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
   wishlists     Wishlist[]
@@ -135,4 +139,50 @@ enum BookingStatus {
   PENDING
   CONFIRMED
   CANCELLED
+}
+
+enum NotificationType {
+  BOOKING_REQUEST
+  BOOKING_CONFIRMED
+  BOOKING_CANCELLED
+  REVIEW_POSTED
+  MESSAGE_RECEIVED
+  LISTING_INQUIRY
+}
+
+model Notification {
+  id        String           @id @default(uuid())
+  type      NotificationType
+  title     String
+  message   String
+  userId    String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bookingId String?
+  listingId String?
+  listing   Listing?         @relation(fields: [listingId], references: [id], onDelete: SetNull)
+  isRead    Boolean          @default(false)
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  @@index([userId])
+  @@index([isRead])
+  @@index([createdAt])
+}
+
+model Message {
+  id         String   @id @default(uuid())
+  content    String
+  senderId   String
+  sender     User     @relation("Sender", fields: [senderId], references: [id], onDelete: Cascade)
+  receiverId String
+  receiver   User     @relation("Receiver", fields: [receiverId], references: [id], onDelete: Cascade)
+  bookingId  String?
+  isRead     Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([senderId])
+  @@index([receiverId])
+  @@index([isRead])
+  @@index([createdAt])
 }

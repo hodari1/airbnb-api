@@ -100,7 +100,7 @@ export const createBooking = async (req: AuthRequest, res: Response, next: NextF
         throw new Error("BOOKING_CONFLICT");
       }
 
-      return tx.booking.create({
+      const newBooking = await tx.booking.create({
         data: {
           listingId,
           guestId,
@@ -110,9 +110,28 @@ export const createBooking = async (req: AuthRequest, res: Response, next: NextF
           status: "PENDING",
         },
       });
+
+      return newBooking;
     });
 
     res.status(201).json(booking);
+
+    // Create notification for the host (after transaction completes)
+    try {
+      const guest = await prisma.user.findUnique({ where: { id: guestId } });
+      await prisma.notification.create({
+        data: {
+          type: "BOOKING_REQUEST",
+          title: "New Booking Request",
+          message: `You have a new booking request from ${guest?.name} for ${listing.title}`,
+          userId: listing.hostId,
+          bookingId: booking.id,
+          listingId: listingId,
+        },
+      });
+    } catch (notifError) {
+      console.error("Error creating booking notification:", notifError);
+    }
 
     try {
       const guest = await prisma.user.findUnique({ where: { id: guestId } });
@@ -174,6 +193,32 @@ export const deleteBooking = async (req: AuthRequest, res: Response, next: NextF
       where: { id },
       data: { status: "CANCELLED" },
     });
+
+    // Create notification for the host about cancellation
+    if (booking.listing) {
+      await prisma.notification.create({
+        data: {
+          type: "BOOKING_CANCELLED",
+          title: "Booking Cancelled",
+          message: `Booking for ${booking.listing.title} from ${booking.guest.name} has been cancelled`,
+          userId: booking.listing.hostId,
+          bookingId: booking.id,
+          listingId: booking.listingId,
+        },
+      });
+
+      // Also notify the guest that cancellation was processed
+      await prisma.notification.create({
+        data: {
+          type: "BOOKING_CANCELLED",
+          title: "Booking Cancelled",
+          message: `Your booking for ${booking.listing.title} has been cancelled`,
+          userId: booking.guestId,
+          bookingId: booking.id,
+          listingId: booking.listingId,
+        },
+      });
+    }
 
     res.status(200).json({ message: "Booking cancelled successfully", booking: updated });
 
