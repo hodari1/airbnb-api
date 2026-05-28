@@ -55,7 +55,9 @@ export const getUnreadCount = async (req: Request, res: Response) => {
 // Mark a notification as read
 export const markAsRead = async (req: Request, res: Response) => {
   try {
-    const { notificationId } = req.params;
+    const notificationId = Array.isArray(req.params.notificationId)
+      ? req.params.notificationId[0]
+      : req.params.notificationId;
     const userId = (req as any).userId;
 
     const notification = await prisma.notification.updateMany({
@@ -110,7 +112,9 @@ export const markAllAsRead = async (req: Request, res: Response) => {
 // Delete a notification
 export const deleteNotification = async (req: Request, res: Response) => {
   try {
-    const { notificationId } = req.params;
+    const notificationId = Array.isArray(req.params.notificationId)
+      ? req.params.notificationId[0]
+      : req.params.notificationId;
     const userId = (req as any).userId;
 
     const notification = await prisma.notification.deleteMany({

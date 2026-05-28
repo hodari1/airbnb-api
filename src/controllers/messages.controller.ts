@@ -5,7 +5,9 @@ import prisma from "../prisma";
 export const getConversation = async (req: Request, res: Response) => {
   try {
     const userId = (req as any).userId;
-    const { otherUserId } = req.params;
+    const otherUserId = Array.isArray(req.params.otherUserId)
+      ? req.params.otherUserId[0]
+      : req.params.otherUserId;
 
     const messages = await prisma.message.findMany({
       where: {
@@ -176,7 +178,9 @@ export const getUnreadMessageCount = async (req: Request, res: Response) => {
 export const markConversationAsRead = async (req: Request, res: Response) => {
   try {
     const userId = (req as any).userId;
-    const { otherUserId } = req.params;
+    const otherUserId = Array.isArray(req.params.otherUserId)
+      ? req.params.otherUserId[0]
+      : req.params.otherUserId;
 
     await prisma.message.updateMany({
       where: {
