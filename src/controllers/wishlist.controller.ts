@@ -27,7 +27,7 @@ export const getWishlist = async (req: AuthRequest, res: Response, next: NextFun
 // POST /wishlist/:listingId — add to wishlist
 export const addToWishlist = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
-    const { listingId } = req.params;
+    const listingId = req.params.listingId as string;
 
     const listing = await prisma.listing.findUnique({ where: { id: listingId } });
     if (!listing) {
@@ -65,7 +65,7 @@ export const addToWishlist = async (req: AuthRequest, res: Response, next: NextF
 // DELETE /wishlist/:listingId — remove from wishlist
 export const removeFromWishlist = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
-    const { listingId } = req.params;
+    const listingId = req.params.listingId as string;
 
     const existing = await prisma.wishlist.findUnique({
       where: { userId_listingId: { userId: req.userId!, listingId } },
@@ -89,7 +89,7 @@ export const removeFromWishlist = async (req: AuthRequest, res: Response, next: 
 // GET /wishlist/:listingId/check — check if listing is in wishlist
 export const checkWishlist = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
-    const { listingId } = req.params;
+    const listingId = req.params.listingId as string;
 
     const existing = await prisma.wishlist.findUnique({
       where: { userId_listingId: { userId: req.userId!, listingId } },
