@@ -69,3 +69,18 @@ export type ListingPhoto = Prisma.ListingPhotoModel
  * 
  */
 export type Review = Prisma.ReviewModel
+/**
+ * Model Wishlist
+ * 
+ */
+export type Wishlist = Prisma.WishlistModel
+/**
+ * Model Notification
+ * 
+ */
+export type Notification = Prisma.NotificationModel
+/**
+ * Model Message
+ * 
+ */
+export type Message = Prisma.MessageModel

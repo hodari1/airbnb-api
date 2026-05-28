@@ -1,12 +1,12 @@
 import { Router } from "express";
-import { authenticate } from "../middlewares/auth.middleware";
+import { authenticate } from "../../middlewares/auth.middleware";
 import {
   getConversation,
   getConversations,
   sendMessage,
   getUnreadMessageCount,
   markConversationAsRead,
-} from "../controllers/messages.controller";
+} from "../../controllers/messages.controller";
 
 const router = Router();
 

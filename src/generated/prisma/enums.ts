@@ -35,3 +35,15 @@ export const BookingStatus = {
 } as const
 
 export type BookingStatus = (typeof BookingStatus)[keyof typeof BookingStatus]
+
+
+export const NotificationType = {
+  BOOKING_REQUEST: 'BOOKING_REQUEST',
+  BOOKING_CONFIRMED: 'BOOKING_CONFIRMED',
+  BOOKING_CANCELLED: 'BOOKING_CANCELLED',
+  REVIEW_POSTED: 'REVIEW_POSTED',
+  MESSAGE_RECEIVED: 'MESSAGE_RECEIVED',
+  LISTING_INQUIRY: 'LISTING_INQUIRY'
+} as const
+
+export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]
