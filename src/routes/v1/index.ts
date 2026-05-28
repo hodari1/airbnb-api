@@ -8,6 +8,8 @@ import profileRouter from "./profile.routes";
 import avatarRouter from "./avatar.routes";
 import photosRouter from "./photos.routes";
 import statsRouter from "./stats.routes";
+import wishlistRouter from "./wishlist.routes";
+import aiRouter from "./ai.routes";
 
 const v1Router = Router();
 
@@ -20,6 +22,8 @@ v1Router.use("/reviews", reviewsRouter);
 v1Router.use("/users/:id/profile", profileRouter);
 v1Router.use("/users/:id/avatar", avatarRouter);
 v1Router.use("/listings/:id/photos", photosRouter);
+v1Router.use("/wishlist", wishlistRouter);
+v1Router.use("/ai", aiRouter);
 v1Router.use("/", statsRouter);
 
 export default v1Router;

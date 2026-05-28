@@ -26,6 +26,7 @@ model User {
   profile          Profile?
   createdAt        DateTime  @default(now())
   updatedAt        DateTime  @updatedAt
+  wishlists        Wishlist[]
 
   @@index([role])
 }
@@ -47,6 +48,7 @@ model Listing {
   photos        ListingPhoto[]
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
+  wishlists     Wishlist[]
 
   @@index([location])
   @@index([pricePerNight])
@@ -102,6 +104,17 @@ model Review {
 
   @@unique([userId, listingId])
   @@index([listingId])
+  @@index([userId])
+}
+model Wishlist {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  listingId String
+  listing   Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, listingId])
   @@index([userId])
 }
 
