@@ -7,7 +7,7 @@ const options: swaggerJsdoc.Options = {
     openapi: "3.0.0",
     info: {
       title: "Airbnb API",
-      version: "1.0.0",
+      version: "1.1.0",
       description: "A full-featured Airbnb-like REST API with listings, bookings, reviews, and authentication",
     },
     servers: [
