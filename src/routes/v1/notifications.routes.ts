@@ -21,7 +21,7 @@ router.use(authenticate);
 
 /**
  * @swagger
- * /notifications:
+ * /api/v1/notifications:
  *   get:
  *     summary: Get all notifications
  *     tags: [Notifications]
@@ -35,7 +35,7 @@ router.get("/", getNotifications);
 
 /**
  * @swagger
- * /notifications/unread-count:
+ * /api/v1/notifications/unread-count:
  *   get:
  *     summary: Get unread notification count
  *     tags: [Notifications]
@@ -49,7 +49,7 @@ router.get("/unread-count", getUnreadCount);
 
 /**
  * @swagger
- * /notifications/mark-all-read:
+ * /api/v1/notifications/mark-all-read:
  *   put:
  *     summary: Mark all notifications as read
  *     tags: [Notifications]
@@ -63,7 +63,7 @@ router.put("/mark-all-read", markAllAsRead);
 
 /**
  * @swagger
- * /notifications/{notificationId}/read:
+ * /api/v1/notifications/{notificationId}/read:
  *   put:
  *     summary: Mark a notification as read
  *     tags: [Notifications]
@@ -83,7 +83,7 @@ router.put("/:notificationId/read", markAsRead);
 
 /**
  * @swagger
- * /notifications/{notificationId}:
+ * /api/v1/notifications/{notificationId}:
  *   delete:
  *     summary: Delete a notification
  *     tags: [Notifications]

@@ -21,7 +21,7 @@ router.use(authenticate);
 
 /**
  * @swagger
- * /messages:
+ * /api/v1/messages:
  *   get:
  *     summary: Get all conversations
  *     tags: [Messages]
@@ -35,7 +35,7 @@ router.get("/", getConversations);
 
 /**
  * @swagger
- * /messages/unread-count:
+ * /api/v1/messages/unread-count:
  *   get:
  *     summary: Get unread message count
  *     tags: [Messages]
@@ -49,7 +49,7 @@ router.get("/unread-count", getUnreadMessageCount);
 
 /**
  * @swagger
- * /messages:
+ * /api/v1/messages:
  *   post:
  *     summary: Send a message
  *     tags: [Messages]
@@ -79,7 +79,7 @@ router.post("/", sendMessage);
 
 /**
  * @swagger
- * /messages/{otherUserId}:
+ * /api/v1/messages/{otherUserId}:
  *   get:
  *     summary: Get conversation with a specific user
  *     tags: [Messages]
@@ -99,7 +99,7 @@ router.get("/:otherUserId", getConversation);
 
 /**
  * @swagger
- * /messages/{otherUserId}/read:
+ * /api/v1/messages/{otherUserId}/read:
  *   put:
  *     summary: Mark conversation as read
  *     tags: [Messages]
