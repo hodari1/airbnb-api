@@ -10,22 +10,95 @@ import {
 
 const router = Router();
 
-// All routes require authentication
 router.use(authenticate);
 
-// Get all notifications
+/**
+ * @swagger
+ * tags:
+ *   name: Notifications
+ *   description: User notifications
+ */
+
+/**
+ * @swagger
+ * /notifications:
+ *   get:
+ *     summary: Get all notifications
+ *     tags: [Notifications]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of notifications
+ */
 router.get("/", getNotifications);
 
-// Get unread count
+/**
+ * @swagger
+ * /notifications/unread-count:
+ *   get:
+ *     summary: Get unread notification count
+ *     tags: [Notifications]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Unread count
+ */
 router.get("/unread-count", getUnreadCount);
 
-// Mark a notification as read
-router.put("/:notificationId/read", markAsRead);
-
-// Mark all notifications as read
+/**
+ * @swagger
+ * /notifications/mark-all-read:
+ *   put:
+ *     summary: Mark all notifications as read
+ *     tags: [Notifications]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: All marked as read
+ */
 router.put("/mark-all-read", markAllAsRead);
 
-// Delete a notification
+/**
+ * @swagger
+ * /notifications/{notificationId}/read:
+ *   put:
+ *     summary: Mark a notification as read
+ *     tags: [Notifications]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: notificationId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Marked as read
+ */
+router.put("/:notificationId/read", markAsRead);
+
+/**
+ * @swagger
+ * /notifications/{notificationId}:
+ *   delete:
+ *     summary: Delete a notification
+ *     tags: [Notifications]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: notificationId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Deleted
+ */
 router.delete("/:notificationId", deleteNotification);
 
 export default router;

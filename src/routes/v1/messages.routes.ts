@@ -10,22 +10,111 @@ import {
 
 const router = Router();
 
-// All routes require authentication
 router.use(authenticate);
 
-// Get all conversations
+/**
+ * @swagger
+ * tags:
+ *   name: Messages
+ *   description: Messaging between users
+ */
+
+/**
+ * @swagger
+ * /messages:
+ *   get:
+ *     summary: Get all conversations
+ *     tags: [Messages]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of conversations
+ */
 router.get("/", getConversations);
 
-// Get unread message count
+/**
+ * @swagger
+ * /messages/unread-count:
+ *   get:
+ *     summary: Get unread message count
+ *     tags: [Messages]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Unread count
+ */
 router.get("/unread-count", getUnreadMessageCount);
 
-// Send a message
+/**
+ * @swagger
+ * /messages:
+ *   post:
+ *     summary: Send a message
+ *     tags: [Messages]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - receiverId
+ *               - content
+ *             properties:
+ *               receiverId:
+ *                 type: string
+ *               content:
+ *                 type: string
+ *               bookingId:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Message sent
+ */
 router.post("/", sendMessage);
 
-// Get conversation with a specific user
+/**
+ * @swagger
+ * /messages/{otherUserId}:
+ *   get:
+ *     summary: Get conversation with a specific user
+ *     tags: [Messages]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: otherUserId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: List of messages
+ */
 router.get("/:otherUserId", getConversation);
 
-// Mark conversation as read
+/**
+ * @swagger
+ * /messages/{otherUserId}/read:
+ *   put:
+ *     summary: Mark conversation as read
+ *     tags: [Messages]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: otherUserId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Marked as read
+ */
 router.put("/:otherUserId/read", markConversationAsRead);
 
 export default router;
