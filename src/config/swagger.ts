@@ -12,8 +12,8 @@ const options: swaggerJsdoc.Options = {
     },
     servers: [
       {
-        url: process.env["API_URL"] || "http://localhost:3000", // ✅ dynamic URL
-      },
+       url: `${process.env["API_URL"] || "http://localhost:3000"}/api/v1`,
+      }
     ],
     components: {
       securitySchemes: {
