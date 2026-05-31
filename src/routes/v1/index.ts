@@ -12,6 +12,7 @@ import wishlistRouter from "./wishlist.routes";
 import aiRouter from "./ai.routes";
 import notificationsRouter from "./notifications.routes";
 import messagesRouter from "./messages.routes";
+import paymentsRouter from "./payments.routes";
 
 const v1Router = Router();
 
@@ -28,6 +29,7 @@ v1Router.use("/wishlist", wishlistRouter);
 v1Router.use("/ai", aiRouter);
 v1Router.use("/notifications", notificationsRouter);
 v1Router.use("/messages", messagesRouter);
+v1Router.use("/payments", paymentsRouter);
 v1Router.use("/", statsRouter);
 
 export default v1Router;

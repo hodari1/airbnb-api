@@ -258,6 +258,10 @@ export type UserWhereInput = {
   bookings?: Prisma.BookingListRelationFilter
   reviews?: Prisma.ReviewListRelationFilter
   profile?: Prisma.XOR<Prisma.ProfileNullableScalarRelationFilter, Prisma.ProfileWhereInput> | null
+  paymentMethods?: Prisma.PaymentMethodListRelationFilter
+  payments?: Prisma.PaymentListRelationFilter
+  payoutMethods?: Prisma.PayoutMethodListRelationFilter
+  payouts?: Prisma.PayoutListRelationFilter
   wishlists?: Prisma.WishlistListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
   sentMessages?: Prisma.MessageListRelationFilter
@@ -283,6 +287,10 @@ export type UserOrderByWithRelationInput = {
   bookings?: Prisma.BookingOrderByRelationAggregateInput
   reviews?: Prisma.ReviewOrderByRelationAggregateInput
   profile?: Prisma.ProfileOrderByWithRelationInput
+  paymentMethods?: Prisma.PaymentMethodOrderByRelationAggregateInput
+  payments?: Prisma.PaymentOrderByRelationAggregateInput
+  payoutMethods?: Prisma.PayoutMethodOrderByRelationAggregateInput
+  payouts?: Prisma.PayoutOrderByRelationAggregateInput
   wishlists?: Prisma.WishlistOrderByRelationAggregateInput
   notifications?: Prisma.NotificationOrderByRelationAggregateInput
   sentMessages?: Prisma.MessageOrderByRelationAggregateInput
@@ -311,6 +319,10 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   bookings?: Prisma.BookingListRelationFilter
   reviews?: Prisma.ReviewListRelationFilter
   profile?: Prisma.XOR<Prisma.ProfileNullableScalarRelationFilter, Prisma.ProfileWhereInput> | null
+  paymentMethods?: Prisma.PaymentMethodListRelationFilter
+  payments?: Prisma.PaymentListRelationFilter
+  payoutMethods?: Prisma.PayoutMethodListRelationFilter
+  payouts?: Prisma.PayoutListRelationFilter
   wishlists?: Prisma.WishlistListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
   sentMessages?: Prisma.MessageListRelationFilter
@@ -376,6 +388,10 @@ export type UserCreateInput = {
   bookings?: Prisma.BookingCreateNestedManyWithoutGuestInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
+  paymentMethods?: Prisma.PaymentMethodCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  payoutMethods?: Prisma.PayoutMethodCreateNestedManyWithoutUserInput
+  payouts?: Prisma.PayoutCreateNestedManyWithoutUserInput
   wishlists?: Prisma.WishlistCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
@@ -401,6 +417,10 @@ export type UserUncheckedCreateInput = {
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutGuestInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
+  paymentMethods?: Prisma.PaymentMethodUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  payoutMethods?: Prisma.PayoutMethodUncheckedCreateNestedManyWithoutUserInput
+  payouts?: Prisma.PayoutUncheckedCreateNestedManyWithoutUserInput
   wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
@@ -426,6 +446,10 @@ export type UserUpdateInput = {
   bookings?: Prisma.BookingUpdateManyWithoutGuestNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
+  paymentMethods?: Prisma.PaymentMethodUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  payoutMethods?: Prisma.PayoutMethodUpdateManyWithoutUserNestedInput
+  payouts?: Prisma.PayoutUpdateManyWithoutUserNestedInput
   wishlists?: Prisma.WishlistUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
@@ -451,6 +475,10 @@ export type UserUncheckedUpdateInput = {
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutGuestNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
+  paymentMethods?: Prisma.PaymentMethodUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  payoutMethods?: Prisma.PayoutMethodUncheckedUpdateManyWithoutUserNestedInput
+  payouts?: Prisma.PayoutUncheckedUpdateManyWithoutUserNestedInput
   wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
@@ -696,6 +724,62 @@ export type UserUpdateOneRequiredWithoutReceivedMessagesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReceivedMessagesInput, Prisma.UserUpdateWithoutReceivedMessagesInput>, Prisma.UserUncheckedUpdateWithoutReceivedMessagesInput>
 }
 
+export type UserCreateNestedOneWithoutPaymentMethodsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPaymentMethodsInput, Prisma.UserUncheckedCreateWithoutPaymentMethodsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPaymentMethodsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutPaymentMethodsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPaymentMethodsInput, Prisma.UserUncheckedCreateWithoutPaymentMethodsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPaymentMethodsInput
+  upsert?: Prisma.UserUpsertWithoutPaymentMethodsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPaymentMethodsInput, Prisma.UserUpdateWithoutPaymentMethodsInput>, Prisma.UserUncheckedUpdateWithoutPaymentMethodsInput>
+}
+
+export type UserCreateNestedOneWithoutPaymentsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPaymentsInput, Prisma.UserUncheckedCreateWithoutPaymentsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPaymentsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutPaymentsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPaymentsInput, Prisma.UserUncheckedCreateWithoutPaymentsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPaymentsInput
+  upsert?: Prisma.UserUpsertWithoutPaymentsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPaymentsInput, Prisma.UserUpdateWithoutPaymentsInput>, Prisma.UserUncheckedUpdateWithoutPaymentsInput>
+}
+
+export type UserCreateNestedOneWithoutPayoutMethodsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPayoutMethodsInput, Prisma.UserUncheckedCreateWithoutPayoutMethodsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPayoutMethodsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutPayoutMethodsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPayoutMethodsInput, Prisma.UserUncheckedCreateWithoutPayoutMethodsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPayoutMethodsInput
+  upsert?: Prisma.UserUpsertWithoutPayoutMethodsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPayoutMethodsInput, Prisma.UserUpdateWithoutPayoutMethodsInput>, Prisma.UserUncheckedUpdateWithoutPayoutMethodsInput>
+}
+
+export type UserCreateNestedOneWithoutPayoutsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPayoutsInput, Prisma.UserUncheckedCreateWithoutPayoutsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPayoutsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutPayoutsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPayoutsInput, Prisma.UserUncheckedCreateWithoutPayoutsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPayoutsInput
+  upsert?: Prisma.UserUpsertWithoutPayoutsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPayoutsInput, Prisma.UserUpdateWithoutPayoutsInput>, Prisma.UserUncheckedUpdateWithoutPayoutsInput>
+}
+
 export type UserCreateWithoutListingsInput = {
   id?: string
   name: string
@@ -714,6 +798,10 @@ export type UserCreateWithoutListingsInput = {
   bookings?: Prisma.BookingCreateNestedManyWithoutGuestInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
+  paymentMethods?: Prisma.PaymentMethodCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  payoutMethods?: Prisma.PayoutMethodCreateNestedManyWithoutUserInput
+  payouts?: Prisma.PayoutCreateNestedManyWithoutUserInput
   wishlists?: Prisma.WishlistCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
@@ -738,6 +826,10 @@ export type UserUncheckedCreateWithoutListingsInput = {
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutGuestInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
+  paymentMethods?: Prisma.PaymentMethodUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  payoutMethods?: Prisma.PayoutMethodUncheckedCreateNestedManyWithoutUserInput
+  payouts?: Prisma.PayoutUncheckedCreateNestedManyWithoutUserInput
   wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
@@ -778,6 +870,10 @@ export type UserUpdateWithoutListingsInput = {
   bookings?: Prisma.BookingUpdateManyWithoutGuestNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
+  paymentMethods?: Prisma.PaymentMethodUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  payoutMethods?: Prisma.PayoutMethodUpdateManyWithoutUserNestedInput
+  payouts?: Prisma.PayoutUpdateManyWithoutUserNestedInput
   wishlists?: Prisma.WishlistUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
@@ -802,6 +898,10 @@ export type UserUncheckedUpdateWithoutListingsInput = {
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutGuestNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
+  paymentMethods?: Prisma.PaymentMethodUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  payoutMethods?: Prisma.PayoutMethodUncheckedUpdateManyWithoutUserNestedInput
+  payouts?: Prisma.PayoutUncheckedUpdateManyWithoutUserNestedInput
   wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
@@ -826,6 +926,10 @@ export type UserCreateWithoutBookingsInput = {
   listings?: Prisma.ListingCreateNestedManyWithoutHostInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
+  paymentMethods?: Prisma.PaymentMethodCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  payoutMethods?: Prisma.PayoutMethodCreateNestedManyWithoutUserInput
+  payouts?: Prisma.PayoutCreateNestedManyWithoutUserInput
   wishlists?: Prisma.WishlistCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
@@ -850,6 +954,10 @@ export type UserUncheckedCreateWithoutBookingsInput = {
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutHostInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
+  paymentMethods?: Prisma.PaymentMethodUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  payoutMethods?: Prisma.PayoutMethodUncheckedCreateNestedManyWithoutUserInput
+  payouts?: Prisma.PayoutUncheckedCreateNestedManyWithoutUserInput
   wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
@@ -890,6 +998,10 @@ export type UserUpdateWithoutBookingsInput = {
   listings?: Prisma.ListingUpdateManyWithoutHostNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
+  paymentMethods?: Prisma.PaymentMethodUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  payoutMethods?: Prisma.PayoutMethodUpdateManyWithoutUserNestedInput
+  payouts?: Prisma.PayoutUpdateManyWithoutUserNestedInput
   wishlists?: Prisma.WishlistUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
@@ -914,6 +1026,10 @@ export type UserUncheckedUpdateWithoutBookingsInput = {
   listings?: Prisma.ListingUncheckedUpdateManyWithoutHostNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
+  paymentMethods?: Prisma.PaymentMethodUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  payoutMethods?: Prisma.PayoutMethodUncheckedUpdateManyWithoutUserNestedInput
+  payouts?: Prisma.PayoutUncheckedUpdateManyWithoutUserNestedInput
   wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
@@ -938,6 +1054,10 @@ export type UserCreateWithoutProfileInput = {
   listings?: Prisma.ListingCreateNestedManyWithoutHostInput
   bookings?: Prisma.BookingCreateNestedManyWithoutGuestInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  paymentMethods?: Prisma.PaymentMethodCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  payoutMethods?: Prisma.PayoutMethodCreateNestedManyWithoutUserInput
+  payouts?: Prisma.PayoutCreateNestedManyWithoutUserInput
   wishlists?: Prisma.WishlistCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
@@ -962,6 +1082,10 @@ export type UserUncheckedCreateWithoutProfileInput = {
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutHostInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutGuestInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  paymentMethods?: Prisma.PaymentMethodUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  payoutMethods?: Prisma.PayoutMethodUncheckedCreateNestedManyWithoutUserInput
+  payouts?: Prisma.PayoutUncheckedCreateNestedManyWithoutUserInput
   wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
@@ -1002,6 +1126,10 @@ export type UserUpdateWithoutProfileInput = {
   listings?: Prisma.ListingUpdateManyWithoutHostNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutGuestNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  paymentMethods?: Prisma.PaymentMethodUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  payoutMethods?: Prisma.PayoutMethodUpdateManyWithoutUserNestedInput
+  payouts?: Prisma.PayoutUpdateManyWithoutUserNestedInput
   wishlists?: Prisma.WishlistUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
@@ -1026,6 +1154,10 @@ export type UserUncheckedUpdateWithoutProfileInput = {
   listings?: Prisma.ListingUncheckedUpdateManyWithoutHostNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutGuestNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  paymentMethods?: Prisma.PaymentMethodUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  payoutMethods?: Prisma.PayoutMethodUncheckedUpdateManyWithoutUserNestedInput
+  payouts?: Prisma.PayoutUncheckedUpdateManyWithoutUserNestedInput
   wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
@@ -1050,6 +1182,10 @@ export type UserCreateWithoutReviewsInput = {
   listings?: Prisma.ListingCreateNestedManyWithoutHostInput
   bookings?: Prisma.BookingCreateNestedManyWithoutGuestInput
   profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
+  paymentMethods?: Prisma.PaymentMethodCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  payoutMethods?: Prisma.PayoutMethodCreateNestedManyWithoutUserInput
+  payouts?: Prisma.PayoutCreateNestedManyWithoutUserInput
   wishlists?: Prisma.WishlistCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
@@ -1074,6 +1210,10 @@ export type UserUncheckedCreateWithoutReviewsInput = {
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutHostInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutGuestInput
   profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
+  paymentMethods?: Prisma.PaymentMethodUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  payoutMethods?: Prisma.PayoutMethodUncheckedCreateNestedManyWithoutUserInput
+  payouts?: Prisma.PayoutUncheckedCreateNestedManyWithoutUserInput
   wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
@@ -1114,6 +1254,10 @@ export type UserUpdateWithoutReviewsInput = {
   listings?: Prisma.ListingUpdateManyWithoutHostNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutGuestNestedInput
   profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
+  paymentMethods?: Prisma.PaymentMethodUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  payoutMethods?: Prisma.PayoutMethodUpdateManyWithoutUserNestedInput
+  payouts?: Prisma.PayoutUpdateManyWithoutUserNestedInput
   wishlists?: Prisma.WishlistUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
@@ -1138,6 +1282,10 @@ export type UserUncheckedUpdateWithoutReviewsInput = {
   listings?: Prisma.ListingUncheckedUpdateManyWithoutHostNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutGuestNestedInput
   profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
+  paymentMethods?: Prisma.PaymentMethodUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  payoutMethods?: Prisma.PayoutMethodUncheckedUpdateManyWithoutUserNestedInput
+  payouts?: Prisma.PayoutUncheckedUpdateManyWithoutUserNestedInput
   wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
@@ -1163,6 +1311,10 @@ export type UserCreateWithoutWishlistsInput = {
   bookings?: Prisma.BookingCreateNestedManyWithoutGuestInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
+  paymentMethods?: Prisma.PaymentMethodCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  payoutMethods?: Prisma.PayoutMethodCreateNestedManyWithoutUserInput
+  payouts?: Prisma.PayoutCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
   receivedMessages?: Prisma.MessageCreateNestedManyWithoutReceiverInput
@@ -1187,6 +1339,10 @@ export type UserUncheckedCreateWithoutWishlistsInput = {
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutGuestInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
+  paymentMethods?: Prisma.PaymentMethodUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  payoutMethods?: Prisma.PayoutMethodUncheckedCreateNestedManyWithoutUserInput
+  payouts?: Prisma.PayoutUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   receivedMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutReceiverInput
@@ -1227,6 +1383,10 @@ export type UserUpdateWithoutWishlistsInput = {
   bookings?: Prisma.BookingUpdateManyWithoutGuestNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
+  paymentMethods?: Prisma.PaymentMethodUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  payoutMethods?: Prisma.PayoutMethodUpdateManyWithoutUserNestedInput
+  payouts?: Prisma.PayoutUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   receivedMessages?: Prisma.MessageUpdateManyWithoutReceiverNestedInput
@@ -1251,6 +1411,10 @@ export type UserUncheckedUpdateWithoutWishlistsInput = {
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutGuestNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
+  paymentMethods?: Prisma.PaymentMethodUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  payoutMethods?: Prisma.PayoutMethodUncheckedUpdateManyWithoutUserNestedInput
+  payouts?: Prisma.PayoutUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   receivedMessages?: Prisma.MessageUncheckedUpdateManyWithoutReceiverNestedInput
@@ -1275,6 +1439,10 @@ export type UserCreateWithoutNotificationsInput = {
   bookings?: Prisma.BookingCreateNestedManyWithoutGuestInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
+  paymentMethods?: Prisma.PaymentMethodCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  payoutMethods?: Prisma.PayoutMethodCreateNestedManyWithoutUserInput
+  payouts?: Prisma.PayoutCreateNestedManyWithoutUserInput
   wishlists?: Prisma.WishlistCreateNestedManyWithoutUserInput
   sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
   receivedMessages?: Prisma.MessageCreateNestedManyWithoutReceiverInput
@@ -1299,6 +1467,10 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutGuestInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
+  paymentMethods?: Prisma.PaymentMethodUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  payoutMethods?: Prisma.PayoutMethodUncheckedCreateNestedManyWithoutUserInput
+  payouts?: Prisma.PayoutUncheckedCreateNestedManyWithoutUserInput
   wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
   sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   receivedMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutReceiverInput
@@ -1339,6 +1511,10 @@ export type UserUpdateWithoutNotificationsInput = {
   bookings?: Prisma.BookingUpdateManyWithoutGuestNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
+  paymentMethods?: Prisma.PaymentMethodUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  payoutMethods?: Prisma.PayoutMethodUpdateManyWithoutUserNestedInput
+  payouts?: Prisma.PayoutUpdateManyWithoutUserNestedInput
   wishlists?: Prisma.WishlistUpdateManyWithoutUserNestedInput
   sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   receivedMessages?: Prisma.MessageUpdateManyWithoutReceiverNestedInput
@@ -1363,6 +1539,10 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutGuestNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
+  paymentMethods?: Prisma.PaymentMethodUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  payoutMethods?: Prisma.PayoutMethodUncheckedUpdateManyWithoutUserNestedInput
+  payouts?: Prisma.PayoutUncheckedUpdateManyWithoutUserNestedInput
   wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
   sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   receivedMessages?: Prisma.MessageUncheckedUpdateManyWithoutReceiverNestedInput
@@ -1387,6 +1567,10 @@ export type UserCreateWithoutSentMessagesInput = {
   bookings?: Prisma.BookingCreateNestedManyWithoutGuestInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
+  paymentMethods?: Prisma.PaymentMethodCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  payoutMethods?: Prisma.PayoutMethodCreateNestedManyWithoutUserInput
+  payouts?: Prisma.PayoutCreateNestedManyWithoutUserInput
   wishlists?: Prisma.WishlistCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   receivedMessages?: Prisma.MessageCreateNestedManyWithoutReceiverInput
@@ -1411,6 +1595,10 @@ export type UserUncheckedCreateWithoutSentMessagesInput = {
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutGuestInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
+  paymentMethods?: Prisma.PaymentMethodUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  payoutMethods?: Prisma.PayoutMethodUncheckedCreateNestedManyWithoutUserInput
+  payouts?: Prisma.PayoutUncheckedCreateNestedManyWithoutUserInput
   wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   receivedMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutReceiverInput
@@ -1440,6 +1628,10 @@ export type UserCreateWithoutReceivedMessagesInput = {
   bookings?: Prisma.BookingCreateNestedManyWithoutGuestInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
+  paymentMethods?: Prisma.PaymentMethodCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  payoutMethods?: Prisma.PayoutMethodCreateNestedManyWithoutUserInput
+  payouts?: Prisma.PayoutCreateNestedManyWithoutUserInput
   wishlists?: Prisma.WishlistCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
@@ -1464,6 +1656,10 @@ export type UserUncheckedCreateWithoutReceivedMessagesInput = {
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutGuestInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
+  paymentMethods?: Prisma.PaymentMethodUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  payoutMethods?: Prisma.PayoutMethodUncheckedCreateNestedManyWithoutUserInput
+  payouts?: Prisma.PayoutUncheckedCreateNestedManyWithoutUserInput
   wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
@@ -1504,6 +1700,10 @@ export type UserUpdateWithoutSentMessagesInput = {
   bookings?: Prisma.BookingUpdateManyWithoutGuestNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
+  paymentMethods?: Prisma.PaymentMethodUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  payoutMethods?: Prisma.PayoutMethodUpdateManyWithoutUserNestedInput
+  payouts?: Prisma.PayoutUpdateManyWithoutUserNestedInput
   wishlists?: Prisma.WishlistUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   receivedMessages?: Prisma.MessageUpdateManyWithoutReceiverNestedInput
@@ -1528,6 +1728,10 @@ export type UserUncheckedUpdateWithoutSentMessagesInput = {
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutGuestNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
+  paymentMethods?: Prisma.PaymentMethodUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  payoutMethods?: Prisma.PayoutMethodUncheckedUpdateManyWithoutUserNestedInput
+  payouts?: Prisma.PayoutUncheckedUpdateManyWithoutUserNestedInput
   wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   receivedMessages?: Prisma.MessageUncheckedUpdateManyWithoutReceiverNestedInput
@@ -1563,6 +1767,10 @@ export type UserUpdateWithoutReceivedMessagesInput = {
   bookings?: Prisma.BookingUpdateManyWithoutGuestNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
+  paymentMethods?: Prisma.PaymentMethodUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  payoutMethods?: Prisma.PayoutMethodUpdateManyWithoutUserNestedInput
+  payouts?: Prisma.PayoutUpdateManyWithoutUserNestedInput
   wishlists?: Prisma.WishlistUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
@@ -1587,9 +1795,525 @@ export type UserUncheckedUpdateWithoutReceivedMessagesInput = {
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutGuestNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
+  paymentMethods?: Prisma.PaymentMethodUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  payoutMethods?: Prisma.PayoutMethodUncheckedUpdateManyWithoutUserNestedInput
+  payouts?: Prisma.PayoutUncheckedUpdateManyWithoutUserNestedInput
   wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+}
+
+export type UserCreateWithoutPaymentMethodsInput = {
+  id?: string
+  name: string
+  email: string
+  username: string
+  phone: string
+  password?: string
+  role?: $Enums.Role
+  avatar?: string | null
+  avatarPublicId?: string | null
+  bio?: string | null
+  resetToken?: string | null
+  resetTokenExpiry?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  listings?: Prisma.ListingCreateNestedManyWithoutHostInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutGuestInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  payoutMethods?: Prisma.PayoutMethodCreateNestedManyWithoutUserInput
+  payouts?: Prisma.PayoutCreateNestedManyWithoutUserInput
+  wishlists?: Prisma.WishlistCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  receivedMessages?: Prisma.MessageCreateNestedManyWithoutReceiverInput
+}
+
+export type UserUncheckedCreateWithoutPaymentMethodsInput = {
+  id?: string
+  name: string
+  email: string
+  username: string
+  phone: string
+  password?: string
+  role?: $Enums.Role
+  avatar?: string | null
+  avatarPublicId?: string | null
+  bio?: string | null
+  resetToken?: string | null
+  resetTokenExpiry?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutHostInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutGuestInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  payoutMethods?: Prisma.PayoutMethodUncheckedCreateNestedManyWithoutUserInput
+  payouts?: Prisma.PayoutUncheckedCreateNestedManyWithoutUserInput
+  wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  receivedMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutReceiverInput
+}
+
+export type UserCreateOrConnectWithoutPaymentMethodsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutPaymentMethodsInput, Prisma.UserUncheckedCreateWithoutPaymentMethodsInput>
+}
+
+export type UserUpsertWithoutPaymentMethodsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutPaymentMethodsInput, Prisma.UserUncheckedUpdateWithoutPaymentMethodsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutPaymentMethodsInput, Prisma.UserUncheckedCreateWithoutPaymentMethodsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutPaymentMethodsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutPaymentMethodsInput, Prisma.UserUncheckedUpdateWithoutPaymentMethodsInput>
+}
+
+export type UserUpdateWithoutPaymentMethodsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  listings?: Prisma.ListingUpdateManyWithoutHostNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutGuestNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  payoutMethods?: Prisma.PayoutMethodUpdateManyWithoutUserNestedInput
+  payouts?: Prisma.PayoutUpdateManyWithoutUserNestedInput
+  wishlists?: Prisma.WishlistUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  receivedMessages?: Prisma.MessageUpdateManyWithoutReceiverNestedInput
+}
+
+export type UserUncheckedUpdateWithoutPaymentMethodsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutHostNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutGuestNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  payoutMethods?: Prisma.PayoutMethodUncheckedUpdateManyWithoutUserNestedInput
+  payouts?: Prisma.PayoutUncheckedUpdateManyWithoutUserNestedInput
+  wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  receivedMessages?: Prisma.MessageUncheckedUpdateManyWithoutReceiverNestedInput
+}
+
+export type UserCreateWithoutPaymentsInput = {
+  id?: string
+  name: string
+  email: string
+  username: string
+  phone: string
+  password?: string
+  role?: $Enums.Role
+  avatar?: string | null
+  avatarPublicId?: string | null
+  bio?: string | null
+  resetToken?: string | null
+  resetTokenExpiry?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  listings?: Prisma.ListingCreateNestedManyWithoutHostInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutGuestInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
+  paymentMethods?: Prisma.PaymentMethodCreateNestedManyWithoutUserInput
+  payoutMethods?: Prisma.PayoutMethodCreateNestedManyWithoutUserInput
+  payouts?: Prisma.PayoutCreateNestedManyWithoutUserInput
+  wishlists?: Prisma.WishlistCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  receivedMessages?: Prisma.MessageCreateNestedManyWithoutReceiverInput
+}
+
+export type UserUncheckedCreateWithoutPaymentsInput = {
+  id?: string
+  name: string
+  email: string
+  username: string
+  phone: string
+  password?: string
+  role?: $Enums.Role
+  avatar?: string | null
+  avatarPublicId?: string | null
+  bio?: string | null
+  resetToken?: string | null
+  resetTokenExpiry?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutHostInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutGuestInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
+  paymentMethods?: Prisma.PaymentMethodUncheckedCreateNestedManyWithoutUserInput
+  payoutMethods?: Prisma.PayoutMethodUncheckedCreateNestedManyWithoutUserInput
+  payouts?: Prisma.PayoutUncheckedCreateNestedManyWithoutUserInput
+  wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  receivedMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutReceiverInput
+}
+
+export type UserCreateOrConnectWithoutPaymentsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutPaymentsInput, Prisma.UserUncheckedCreateWithoutPaymentsInput>
+}
+
+export type UserUpsertWithoutPaymentsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutPaymentsInput, Prisma.UserUncheckedUpdateWithoutPaymentsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutPaymentsInput, Prisma.UserUncheckedCreateWithoutPaymentsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutPaymentsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutPaymentsInput, Prisma.UserUncheckedUpdateWithoutPaymentsInput>
+}
+
+export type UserUpdateWithoutPaymentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  listings?: Prisma.ListingUpdateManyWithoutHostNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutGuestNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
+  paymentMethods?: Prisma.PaymentMethodUpdateManyWithoutUserNestedInput
+  payoutMethods?: Prisma.PayoutMethodUpdateManyWithoutUserNestedInput
+  payouts?: Prisma.PayoutUpdateManyWithoutUserNestedInput
+  wishlists?: Prisma.WishlistUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  receivedMessages?: Prisma.MessageUpdateManyWithoutReceiverNestedInput
+}
+
+export type UserUncheckedUpdateWithoutPaymentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutHostNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutGuestNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
+  paymentMethods?: Prisma.PaymentMethodUncheckedUpdateManyWithoutUserNestedInput
+  payoutMethods?: Prisma.PayoutMethodUncheckedUpdateManyWithoutUserNestedInput
+  payouts?: Prisma.PayoutUncheckedUpdateManyWithoutUserNestedInput
+  wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  receivedMessages?: Prisma.MessageUncheckedUpdateManyWithoutReceiverNestedInput
+}
+
+export type UserCreateWithoutPayoutMethodsInput = {
+  id?: string
+  name: string
+  email: string
+  username: string
+  phone: string
+  password?: string
+  role?: $Enums.Role
+  avatar?: string | null
+  avatarPublicId?: string | null
+  bio?: string | null
+  resetToken?: string | null
+  resetTokenExpiry?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  listings?: Prisma.ListingCreateNestedManyWithoutHostInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutGuestInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
+  paymentMethods?: Prisma.PaymentMethodCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  payouts?: Prisma.PayoutCreateNestedManyWithoutUserInput
+  wishlists?: Prisma.WishlistCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  receivedMessages?: Prisma.MessageCreateNestedManyWithoutReceiverInput
+}
+
+export type UserUncheckedCreateWithoutPayoutMethodsInput = {
+  id?: string
+  name: string
+  email: string
+  username: string
+  phone: string
+  password?: string
+  role?: $Enums.Role
+  avatar?: string | null
+  avatarPublicId?: string | null
+  bio?: string | null
+  resetToken?: string | null
+  resetTokenExpiry?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutHostInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutGuestInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
+  paymentMethods?: Prisma.PaymentMethodUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  payouts?: Prisma.PayoutUncheckedCreateNestedManyWithoutUserInput
+  wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  receivedMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutReceiverInput
+}
+
+export type UserCreateOrConnectWithoutPayoutMethodsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutPayoutMethodsInput, Prisma.UserUncheckedCreateWithoutPayoutMethodsInput>
+}
+
+export type UserUpsertWithoutPayoutMethodsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutPayoutMethodsInput, Prisma.UserUncheckedUpdateWithoutPayoutMethodsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutPayoutMethodsInput, Prisma.UserUncheckedCreateWithoutPayoutMethodsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutPayoutMethodsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutPayoutMethodsInput, Prisma.UserUncheckedUpdateWithoutPayoutMethodsInput>
+}
+
+export type UserUpdateWithoutPayoutMethodsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  listings?: Prisma.ListingUpdateManyWithoutHostNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutGuestNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
+  paymentMethods?: Prisma.PaymentMethodUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  payouts?: Prisma.PayoutUpdateManyWithoutUserNestedInput
+  wishlists?: Prisma.WishlistUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  receivedMessages?: Prisma.MessageUpdateManyWithoutReceiverNestedInput
+}
+
+export type UserUncheckedUpdateWithoutPayoutMethodsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutHostNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutGuestNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
+  paymentMethods?: Prisma.PaymentMethodUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  payouts?: Prisma.PayoutUncheckedUpdateManyWithoutUserNestedInput
+  wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  receivedMessages?: Prisma.MessageUncheckedUpdateManyWithoutReceiverNestedInput
+}
+
+export type UserCreateWithoutPayoutsInput = {
+  id?: string
+  name: string
+  email: string
+  username: string
+  phone: string
+  password?: string
+  role?: $Enums.Role
+  avatar?: string | null
+  avatarPublicId?: string | null
+  bio?: string | null
+  resetToken?: string | null
+  resetTokenExpiry?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  listings?: Prisma.ListingCreateNestedManyWithoutHostInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutGuestInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
+  paymentMethods?: Prisma.PaymentMethodCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  payoutMethods?: Prisma.PayoutMethodCreateNestedManyWithoutUserInput
+  wishlists?: Prisma.WishlistCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  receivedMessages?: Prisma.MessageCreateNestedManyWithoutReceiverInput
+}
+
+export type UserUncheckedCreateWithoutPayoutsInput = {
+  id?: string
+  name: string
+  email: string
+  username: string
+  phone: string
+  password?: string
+  role?: $Enums.Role
+  avatar?: string | null
+  avatarPublicId?: string | null
+  bio?: string | null
+  resetToken?: string | null
+  resetTokenExpiry?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutHostInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutGuestInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
+  paymentMethods?: Prisma.PaymentMethodUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  payoutMethods?: Prisma.PayoutMethodUncheckedCreateNestedManyWithoutUserInput
+  wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  receivedMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutReceiverInput
+}
+
+export type UserCreateOrConnectWithoutPayoutsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutPayoutsInput, Prisma.UserUncheckedCreateWithoutPayoutsInput>
+}
+
+export type UserUpsertWithoutPayoutsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutPayoutsInput, Prisma.UserUncheckedUpdateWithoutPayoutsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutPayoutsInput, Prisma.UserUncheckedCreateWithoutPayoutsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutPayoutsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutPayoutsInput, Prisma.UserUncheckedUpdateWithoutPayoutsInput>
+}
+
+export type UserUpdateWithoutPayoutsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  listings?: Prisma.ListingUpdateManyWithoutHostNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutGuestNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
+  paymentMethods?: Prisma.PaymentMethodUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  payoutMethods?: Prisma.PayoutMethodUpdateManyWithoutUserNestedInput
+  wishlists?: Prisma.WishlistUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  receivedMessages?: Prisma.MessageUpdateManyWithoutReceiverNestedInput
+}
+
+export type UserUncheckedUpdateWithoutPayoutsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutHostNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutGuestNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
+  paymentMethods?: Prisma.PaymentMethodUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  payoutMethods?: Prisma.PayoutMethodUncheckedUpdateManyWithoutUserNestedInput
+  wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  receivedMessages?: Prisma.MessageUncheckedUpdateManyWithoutReceiverNestedInput
 }
 
 
@@ -1601,6 +2325,10 @@ export type UserCountOutputType = {
   listings: number
   bookings: number
   reviews: number
+  paymentMethods: number
+  payments: number
+  payoutMethods: number
+  payouts: number
   wishlists: number
   notifications: number
   sentMessages: number
@@ -1611,6 +2339,10 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   listings?: boolean | UserCountOutputTypeCountListingsArgs
   bookings?: boolean | UserCountOutputTypeCountBookingsArgs
   reviews?: boolean | UserCountOutputTypeCountReviewsArgs
+  paymentMethods?: boolean | UserCountOutputTypeCountPaymentMethodsArgs
+  payments?: boolean | UserCountOutputTypeCountPaymentsArgs
+  payoutMethods?: boolean | UserCountOutputTypeCountPayoutMethodsArgs
+  payouts?: boolean | UserCountOutputTypeCountPayoutsArgs
   wishlists?: boolean | UserCountOutputTypeCountWishlistsArgs
   notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
   sentMessages?: boolean | UserCountOutputTypeCountSentMessagesArgs
@@ -1646,6 +2378,34 @@ export type UserCountOutputTypeCountBookingsArgs<ExtArgs extends runtime.Types.E
  */
 export type UserCountOutputTypeCountReviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ReviewWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountPaymentMethodsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PaymentMethodWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountPaymentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PaymentWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountPayoutMethodsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PayoutMethodWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountPayoutsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PayoutWhereInput
 }
 
 /**
@@ -1696,6 +2456,10 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   bookings?: boolean | Prisma.User$bookingsArgs<ExtArgs>
   reviews?: boolean | Prisma.User$reviewsArgs<ExtArgs>
   profile?: boolean | Prisma.User$profileArgs<ExtArgs>
+  paymentMethods?: boolean | Prisma.User$paymentMethodsArgs<ExtArgs>
+  payments?: boolean | Prisma.User$paymentsArgs<ExtArgs>
+  payoutMethods?: boolean | Prisma.User$payoutMethodsArgs<ExtArgs>
+  payouts?: boolean | Prisma.User$payoutsArgs<ExtArgs>
   wishlists?: boolean | Prisma.User$wishlistsArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   sentMessages?: boolean | Prisma.User$sentMessagesArgs<ExtArgs>
@@ -1760,6 +2524,10 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   bookings?: boolean | Prisma.User$bookingsArgs<ExtArgs>
   reviews?: boolean | Prisma.User$reviewsArgs<ExtArgs>
   profile?: boolean | Prisma.User$profileArgs<ExtArgs>
+  paymentMethods?: boolean | Prisma.User$paymentMethodsArgs<ExtArgs>
+  payments?: boolean | Prisma.User$paymentsArgs<ExtArgs>
+  payoutMethods?: boolean | Prisma.User$payoutMethodsArgs<ExtArgs>
+  payouts?: boolean | Prisma.User$payoutsArgs<ExtArgs>
   wishlists?: boolean | Prisma.User$wishlistsArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   sentMessages?: boolean | Prisma.User$sentMessagesArgs<ExtArgs>
@@ -1776,6 +2544,10 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     bookings: Prisma.$BookingPayload<ExtArgs>[]
     reviews: Prisma.$ReviewPayload<ExtArgs>[]
     profile: Prisma.$ProfilePayload<ExtArgs> | null
+    paymentMethods: Prisma.$PaymentMethodPayload<ExtArgs>[]
+    payments: Prisma.$PaymentPayload<ExtArgs>[]
+    payoutMethods: Prisma.$PayoutMethodPayload<ExtArgs>[]
+    payouts: Prisma.$PayoutPayload<ExtArgs>[]
     wishlists: Prisma.$WishlistPayload<ExtArgs>[]
     notifications: Prisma.$NotificationPayload<ExtArgs>[]
     sentMessages: Prisma.$MessagePayload<ExtArgs>[]
@@ -2194,6 +2966,10 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   bookings<T extends Prisma.User$bookingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reviews<T extends Prisma.User$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   profile<T extends Prisma.User$profileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$profileArgs<ExtArgs>>): Prisma.Prisma__ProfileClient<runtime.Types.Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  paymentMethods<T extends Prisma.User$paymentMethodsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$paymentMethodsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentMethodPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  payments<T extends Prisma.User$paymentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  payoutMethods<T extends Prisma.User$payoutMethodsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$payoutMethodsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PayoutMethodPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  payouts<T extends Prisma.User$payoutsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$payoutsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PayoutPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   wishlists<T extends Prisma.User$wishlistsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$wishlistsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WishlistPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sentMessages<T extends Prisma.User$sentMessagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sentMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2722,6 +3498,102 @@ export type User$profileArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    */
   include?: Prisma.ProfileInclude<ExtArgs> | null
   where?: Prisma.ProfileWhereInput
+}
+
+/**
+ * User.paymentMethods
+ */
+export type User$paymentMethodsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PaymentMethod
+   */
+  select?: Prisma.PaymentMethodSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PaymentMethod
+   */
+  omit?: Prisma.PaymentMethodOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PaymentMethodInclude<ExtArgs> | null
+  where?: Prisma.PaymentMethodWhereInput
+  orderBy?: Prisma.PaymentMethodOrderByWithRelationInput | Prisma.PaymentMethodOrderByWithRelationInput[]
+  cursor?: Prisma.PaymentMethodWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PaymentMethodScalarFieldEnum | Prisma.PaymentMethodScalarFieldEnum[]
+}
+
+/**
+ * User.payments
+ */
+export type User$paymentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Payment
+   */
+  select?: Prisma.PaymentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Payment
+   */
+  omit?: Prisma.PaymentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PaymentInclude<ExtArgs> | null
+  where?: Prisma.PaymentWhereInput
+  orderBy?: Prisma.PaymentOrderByWithRelationInput | Prisma.PaymentOrderByWithRelationInput[]
+  cursor?: Prisma.PaymentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PaymentScalarFieldEnum | Prisma.PaymentScalarFieldEnum[]
+}
+
+/**
+ * User.payoutMethods
+ */
+export type User$payoutMethodsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PayoutMethod
+   */
+  select?: Prisma.PayoutMethodSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PayoutMethod
+   */
+  omit?: Prisma.PayoutMethodOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PayoutMethodInclude<ExtArgs> | null
+  where?: Prisma.PayoutMethodWhereInput
+  orderBy?: Prisma.PayoutMethodOrderByWithRelationInput | Prisma.PayoutMethodOrderByWithRelationInput[]
+  cursor?: Prisma.PayoutMethodWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PayoutMethodScalarFieldEnum | Prisma.PayoutMethodScalarFieldEnum[]
+}
+
+/**
+ * User.payouts
+ */
+export type User$payoutsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Payout
+   */
+  select?: Prisma.PayoutSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Payout
+   */
+  omit?: Prisma.PayoutOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PayoutInclude<ExtArgs> | null
+  where?: Prisma.PayoutWhereInput
+  orderBy?: Prisma.PayoutOrderByWithRelationInput | Prisma.PayoutOrderByWithRelationInput[]
+  cursor?: Prisma.PayoutWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PayoutScalarFieldEnum | Prisma.PayoutScalarFieldEnum[]
 }
 
 /**

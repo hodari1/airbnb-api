@@ -47,3 +47,33 @@ export const NotificationType = {
 } as const
 
 export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]
+
+
+export const PaymentMethodType = {
+  CREDIT_CARD: 'CREDIT_CARD',
+  DEBIT_CARD: 'DEBIT_CARD',
+  MOBILE_MONEY: 'MOBILE_MONEY',
+  BANK_TRANSFER: 'BANK_TRANSFER'
+} as const
+
+export type PaymentMethodType = (typeof PaymentMethodType)[keyof typeof PaymentMethodType]
+
+
+export const PaymentStatus = {
+  PENDING: 'PENDING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED',
+  REFUNDED: 'REFUNDED'
+} as const
+
+export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
+
+
+export const PayoutStatus = {
+  PENDING: 'PENDING',
+  PROCESSING: 'PROCESSING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED'
+} as const
+
+export type PayoutStatus = (typeof PayoutStatus)[keyof typeof PayoutStatus]

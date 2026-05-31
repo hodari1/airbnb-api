@@ -84,3 +84,23 @@ export type Notification = Prisma.NotificationModel
  * 
  */
 export type Message = Prisma.MessageModel
+/**
+ * Model PaymentMethod
+ * 
+ */
+export type PaymentMethod = Prisma.PaymentMethodModel
+/**
+ * Model Payment
+ * 
+ */
+export type Payment = Prisma.PaymentModel
+/**
+ * Model PayoutMethod
+ * 
+ */
+export type PayoutMethod = Prisma.PayoutMethodModel
+/**
+ * Model Payout
+ * 
+ */
+export type Payout = Prisma.PayoutModel

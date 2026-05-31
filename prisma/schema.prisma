@@ -24,6 +24,10 @@ model User {
   bookings         Booking[]
   reviews          Review[]
   profile          Profile?
+  paymentMethods PaymentMethod[]
+  payments       Payment[]
+  payoutMethods  PayoutMethod[]
+  payouts        Payout[]
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @updatedAt
   wishlists        Wishlist[]
@@ -71,6 +75,8 @@ model Booking {
   guest      User          @relation(fields: [guestId], references: [id], onDelete: Cascade)
   listingId  String
   listing    Listing       @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  payment Payment?
+  guests  Int     @default(1)
   createdAt  DateTime      @default(now())
   updatedAt  DateTime      @updatedAt
 
@@ -185,4 +191,86 @@ model Message {
   @@index([receiverId])
   @@index([isRead])
   @@index([createdAt])
+}
+
+  enum PaymentMethodType {
+  CREDIT_CARD
+  DEBIT_CARD
+  MOBILE_MONEY
+  BANK_TRANSFER
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum PayoutStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+model PaymentMethod {
+  id          String            @id @default(uuid())
+  type        PaymentMethodType
+  label       String
+  details     Json
+  isDefault   Boolean           @default(false)
+  userId      String
+  user        User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  @@index([userId])
+}
+
+model Payment {
+  id              String        @id @default(uuid())
+  amount          Float
+  currency        String        @default("USD")
+  status          PaymentStatus @default(PENDING)
+  paymentMethodId String?
+  bookingId       String        @unique
+  booking         Booking       @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  userId          String
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([userId])
+  @@index([bookingId])
+  @@index([status])
+}
+
+model PayoutMethod {
+  id        String            @id @default(uuid())
+  type      PaymentMethodType
+  label     String
+  details   Json
+  isDefault Boolean           @default(false)
+  userId    String
+  user      User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+
+  @@index([userId])
+}
+
+model Payout {
+  id             String       @id @default(uuid())
+  amount         Float
+  currency       String       @default("USD")
+  status         PayoutStatus @default(PENDING)
+  payoutMethodId String?
+  userId         String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@index([userId])
+  @@index([status])
 }

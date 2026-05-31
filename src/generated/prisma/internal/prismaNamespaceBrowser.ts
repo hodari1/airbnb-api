@@ -59,7 +59,11 @@ export const ModelName = {
   Review: 'Review',
   Wishlist: 'Wishlist',
   Notification: 'Notification',
-  Message: 'Message'
+  Message: 'Message',
+  PaymentMethod: 'PaymentMethod',
+  Payment: 'Payment',
+  PayoutMethod: 'PayoutMethod',
+  Payout: 'Payout'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -124,6 +128,7 @@ export const BookingScalarFieldEnum = {
   status: 'status',
   guestId: 'guestId',
   listingId: 'listingId',
+  guests: 'guests',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -204,12 +209,76 @@ export const MessageScalarFieldEnum = {
 export type MessageScalarFieldEnum = (typeof MessageScalarFieldEnum)[keyof typeof MessageScalarFieldEnum]
 
 
+export const PaymentMethodScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  label: 'label',
+  details: 'details',
+  isDefault: 'isDefault',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PaymentMethodScalarFieldEnum = (typeof PaymentMethodScalarFieldEnum)[keyof typeof PaymentMethodScalarFieldEnum]
+
+
+export const PaymentScalarFieldEnum = {
+  id: 'id',
+  amount: 'amount',
+  currency: 'currency',
+  status: 'status',
+  paymentMethodId: 'paymentMethodId',
+  bookingId: 'bookingId',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum]
+
+
+export const PayoutMethodScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  label: 'label',
+  details: 'details',
+  isDefault: 'isDefault',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PayoutMethodScalarFieldEnum = (typeof PayoutMethodScalarFieldEnum)[keyof typeof PayoutMethodScalarFieldEnum]
+
+
+export const PayoutScalarFieldEnum = {
+  id: 'id',
+  amount: 'amount',
+  currency: 'currency',
+  status: 'status',
+  payoutMethodId: 'payoutMethodId',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PayoutScalarFieldEnum = (typeof PayoutScalarFieldEnum)[keyof typeof PayoutScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {
@@ -226,4 +295,13 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
