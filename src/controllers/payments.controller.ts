@@ -7,7 +7,7 @@ import stripe from "../config/stripe";
 export const getPaymentMethods = async (req: any, res: Response) => {
   try {
     const methods = await prisma.paymentMethod.findMany({
-      where: { userId: req.user.id },
+      where: { userId: req.userId },
       orderBy: { createdAt: "desc" },
     });
     res.json({ data: methods });
@@ -25,7 +25,7 @@ export const addPaymentMethod = async (req: any, res: Response) => {
     }
     if (isDefault) {
       await prisma.paymentMethod.updateMany({
-        where: { userId: req.user.id },
+        where: { userId: req.userId },
         data: { isDefault: false },
       });
     }
@@ -35,7 +35,7 @@ export const addPaymentMethod = async (req: any, res: Response) => {
         label,
         details: details || {},
         isDefault: isDefault || false,
-        userId: req.user.id,
+        userId: req.userId,
       },
     });
     res.status(201).json({ data: method, message: "Payment method added" });
@@ -49,7 +49,7 @@ export const deletePaymentMethod = async (req: any, res: Response) => {
   try {
     const { id } = req.params;
     await prisma.paymentMethod.delete({
-      where: { id, userId: req.user.id },
+      where: { id, userId: req.userId },
     });
     res.json({ message: "Payment method removed" });
   } catch (error) {
@@ -62,7 +62,7 @@ export const setDefaultPaymentMethod = async (req: any, res: Response) => {
   try {
     const { id } = req.params;
     await prisma.paymentMethod.updateMany({
-      where: { userId: req.user.id },
+      where: { userId: req.userId },
       data: { isDefault: false },
     });
     await prisma.paymentMethod.update({
@@ -81,7 +81,7 @@ export const setDefaultPaymentMethod = async (req: any, res: Response) => {
 export const getPayoutMethods = async (req: any, res: Response) => {
   try {
     const methods = await prisma.payoutMethod.findMany({
-      where: { userId: req.user.id },
+      where: { userId: req.userId },
       orderBy: { createdAt: "desc" },
     });
     res.json({ data: methods });
@@ -99,7 +99,7 @@ export const addPayoutMethod = async (req: any, res: Response) => {
     }
     if (isDefault) {
       await prisma.payoutMethod.updateMany({
-        where: { userId: req.user.id },
+        where: { userId: req.userId },
         data: { isDefault: false },
       });
     }
@@ -109,7 +109,7 @@ export const addPayoutMethod = async (req: any, res: Response) => {
         label,
         details: details || {},
         isDefault: isDefault || false,
-        userId: req.user.id,
+        userId: req.userId,
       },
     });
     res.status(201).json({ data: method, message: "Payout method added" });
@@ -123,7 +123,7 @@ export const deletePayoutMethod = async (req: any, res: Response) => {
   try {
     const { id } = req.params;
     await prisma.payoutMethod.delete({
-      where: { id, userId: req.user.id },
+      where: { id, userId: req.userId },
     });
     res.json({ message: "Payout method removed" });
   } catch (error) {
@@ -150,7 +150,7 @@ export const createPaymentIntent = async (req: any, res: Response) => {
       return res.status(404).json({ error: "Booking not found" });
     }
 
-    if (booking.guestId !== req.user.id) {
+    if (booking.guestId !== req.userId) {
       return res.status(403).json({ error: "Not your booking" });
     }
 
@@ -161,7 +161,7 @@ export const createPaymentIntent = async (req: any, res: Response) => {
       currency: "usd",
       metadata: {
         bookingId: booking.id,
-        userId: req.user.id,
+        userId: req.userId,
         listingId: booking.listingId,
       },
     });
@@ -173,7 +173,7 @@ export const createPaymentIntent = async (req: any, res: Response) => {
         currency: "usd",
         status: "PENDING",
         bookingId: booking.id,
-        userId: req.user.id,
+        userId: req.userId,
       },
     });
 
@@ -243,7 +243,7 @@ export const confirmPayment = async (req: any, res: Response) => {
 export const getPayments = async (req: any, res: Response) => {
   try {
     const payments = await prisma.payment.findMany({
-      where: { userId: req.user.id },
+      where: { userId: req.userId },
       orderBy: { createdAt: "desc" },
     });
     res.json({ data: payments });
@@ -258,7 +258,7 @@ export const getPayments = async (req: any, res: Response) => {
 export const getPayouts = async (req: any, res: Response) => {
   try {
     const payouts = await prisma.payout.findMany({
-      where: { userId: req.user.id },
+      where: { userId: req.userId },
       orderBy: { createdAt: "desc" },
     });
     res.json({ data: payouts });
