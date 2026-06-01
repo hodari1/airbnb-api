@@ -1,5 +1,8 @@
 import { Request, Response } from "express";
 import prisma from "../prisma";
+import stripe from "../config/stripe";
+
+// ─── Payment Methods ──────────────────────────────────────────
 
 export const getPaymentMethods = async (req: any, res: Response) => {
   try {
@@ -129,25 +132,118 @@ export const deletePayoutMethod = async (req: any, res: Response) => {
   }
 };
 
-// ─── Payments History ─────────────────────────────────────────
+// ─── Create Payment Intent (called when user taps Reserve) ────
+
+export const createPaymentIntent = async (req: any, res: Response) => {
+  try {
+    const { bookingId } = req.body;
+    if (!bookingId) {
+      return res.status(400).json({ error: "bookingId is required" });
+    }
+
+    const booking = await prisma.booking.findUnique({
+      where: { id: bookingId },
+      include: { listing: true },
+    });
+
+    if (!booking) {
+      return res.status(404).json({ error: "Booking not found" });
+    }
+
+    if (booking.guestId !== req.user.id) {
+      return res.status(403).json({ error: "Not your booking" });
+    }
+
+    const amount = Math.round((booking.totalPrice || 0) * 100);
+
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount,
+      currency: "usd",
+      metadata: {
+        bookingId: booking.id,
+        userId: req.user.id,
+        listingId: booking.listingId,
+      },
+    });
+
+    // Save payment record
+    await prisma.payment.create({
+      data: {
+        amount: booking.totalPrice || 0,
+        currency: "usd",
+        status: "PENDING",
+        bookingId: booking.id,
+        userId: req.user.id,
+      },
+    });
+
+    res.json({
+      clientSecret: paymentIntent.client_secret,
+      publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
+      amount: booking.totalPrice,
+    });
+  } catch (error) {
+    console.error("createPaymentIntent error:", error);
+    res.status(500).json({ error: "Failed to create payment intent" });
+  }
+};
+
+// ─── Confirm Payment (called after Stripe confirms) ───────────
+
+export const confirmPayment = async (req: any, res: Response) => {
+  try {
+    const { paymentIntentId, bookingId } = req.body;
+
+    const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+
+    if (paymentIntent.status === "succeeded") {
+      // Update payment status
+      await prisma.payment.updateMany({
+        where: { bookingId },
+        data: { status: "COMPLETED" },
+      });
+
+      // Confirm the booking
+      await prisma.booking.update({
+        where: { id: bookingId },
+        data: { status: "CONFIRMED" },
+      });
+
+      // Notify host
+      const booking = await prisma.booking.findUnique({
+        where: { id: bookingId },
+        include: { listing: true, guest: true },
+      });
+
+      if (booking) {
+        await prisma.notification.create({
+          data: {
+            type: "BOOKING_CONFIRMED",
+            title: "Booking Confirmed!",
+            message: `${booking.guest.name} has paid for ${booking.listing.title}`,
+            userId: booking.listing.hostId,
+            bookingId: booking.id,
+            listingId: booking.listingId,
+          },
+        });
+      }
+
+      res.json({ message: "Payment confirmed", status: "CONFIRMED" });
+    } else {
+      res.status(400).json({ error: "Payment not completed" });
+    }
+  } catch (error) {
+    console.error("confirmPayment error:", error);
+    res.status(500).json({ error: "Failed to confirm payment" });
+  }
+};
+
+// ─── Get Payment History ──────────────────────────────────────
 
 export const getPayments = async (req: any, res: Response) => {
   try {
     const payments = await prisma.payment.findMany({
       where: { userId: req.user.id },
-      include: {
-        booking: {
-          select: {
-            id: true,
-            checkIn: true,
-            checkOut: true,
-            totalPrice: true,
-            listing: {
-              select: { title: true, location: true },
-            },
-          },
-        },
-      },
       orderBy: { createdAt: "desc" },
     });
     res.json({ data: payments });
@@ -157,7 +253,7 @@ export const getPayments = async (req: any, res: Response) => {
   }
 };
 
-// ─── Payouts History ──────────────────────────────────────────
+// ─── Get Payout History ───────────────────────────────────────
 
 export const getPayouts = async (req: any, res: Response) => {
   try {

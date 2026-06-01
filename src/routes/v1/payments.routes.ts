@@ -8,6 +8,8 @@ import {
   getPayoutMethods,
   addPayoutMethod,
   deletePayoutMethod,
+  createPaymentIntent,
+  confirmPayment,
   getPayments,
   getPayouts,
 } from "../../controllers/payments.controller";
@@ -176,6 +178,71 @@ router.post("/payouts/methods", addPayoutMethod);
  *         description: Removed
  */
 router.delete("/payouts/methods/:id", deletePayoutMethod);
+
+// ─── Payment Intent & Confirmation ───────────────────────────
+
+/**
+ * @swagger
+ * /api/v1/payments/create-intent:
+ *   post:
+ *     summary: Create a payment intent
+ *     tags: [Payments]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [amount, currency]
+ *             properties:
+ *               amount:
+ *                 type: number
+ *                 description: Amount to charge
+ *               currency:
+ *                 type: string
+ *                 description: Currency code (e.g. RWF, USD)
+ *               bookingId:
+ *                 type: string
+ *                 description: Associated booking ID
+ *               paymentMethodId:
+ *                 type: string
+ *                 description: Payment method to use
+ *     responses:
+ *       201:
+ *         description: Payment intent created
+ *       400:
+ *         description: Invalid request data
+ */
+router.post("/create-intent", createPaymentIntent);
+
+/**
+ * @swagger
+ * /api/v1/payments/confirm:
+ *   post:
+ *     summary: Confirm a payment
+ *     tags: [Payments]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [paymentIntentId]
+ *             properties:
+ *               paymentIntentId:
+ *                 type: string
+ *                 description: ID of the payment intent to confirm
+ *     responses:
+ *       200:
+ *         description: Payment confirmed successfully
+ *       400:
+ *         description: Payment confirmation failed
+ */
+router.post("/confirm", confirmPayment);
 
 // ─── History ──────────────────────────────────────────────────
 
