@@ -154,8 +154,11 @@ export const createPaymentIntent = async (req: any, res: Response) => {
       return res.status(403).json({ error: "Not your booking" });
     }
 
-    const amount = Math.round((booking.totalPrice || 0) * 100);
-
+    const baseAmount = booking.totalPrice || 0;
+const cleaningFee = Math.round(baseAmount * 0.1);
+const serviceFee = Math.round(baseAmount * 0.12);
+const totalAmount = baseAmount + cleaningFee + serviceFee;
+const amount = Math.round(totalAmount * 100);
     const paymentIntent = await stripe.paymentIntents.create({
       amount,
       currency: "usd",
@@ -169,7 +172,7 @@ export const createPaymentIntent = async (req: any, res: Response) => {
     // Save payment record
     await prisma.payment.create({
       data: {
-        amount: booking.totalPrice || 0,
+        amount: totalAmount || 0,
         currency: "usd",
         status: "PENDING",
         bookingId: booking.id,
@@ -180,7 +183,7 @@ export const createPaymentIntent = async (req: any, res: Response) => {
     res.json({
       clientSecret: paymentIntent.client_secret,
       publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
-      amount: booking.totalPrice,
+      amount: totalAmount,
     });
   } catch (error) {
     console.error("createPaymentIntent error:", error);
