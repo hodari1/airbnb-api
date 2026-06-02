@@ -154,6 +154,10 @@ export const createPaymentIntent = async (req: any, res: Response) => {
       return res.status(403).json({ error: "Not your booking" });
     }
 
+    if (booking.status !== "PENDING") {
+      return res.status(400).json({ error: "Payment can only be created for pending bookings" });
+    }
+
     const amount = Math.round((booking.totalPrice || 0) * 100);
 
     const paymentIntent = await stripe.paymentIntents.create({

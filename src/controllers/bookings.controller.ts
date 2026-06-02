@@ -90,7 +90,7 @@ export const createBooking = async (req: AuthRequest, res: Response, next: NextF
       const conflict = await tx.booking.findFirst({
         where: {
           listingId,
-          status: "CONFIRMED",
+          status: { in: ["PENDING", "CONFIRMED"] },
           checkIn: { lt: new Date(checkOut) },
           checkOut: { gt: new Date(checkIn) },
         },
