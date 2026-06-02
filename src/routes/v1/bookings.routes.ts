@@ -59,7 +59,7 @@
  * @swagger
  * /api/v1/bookings:
  *   get:
- *     summary: Get all bookings
+ *     summary: Get my bookings
  *     tags: [Bookings]
  *     security:
  *       - bearerAuth: []
@@ -76,7 +76,7 @@
  *           default: 10
  *     responses:
  *       200:
- *         description: Paginated list of bookings
+ *         description: Paginated list of my bookings
  *         content:
  *           application/json:
  *             schema:
@@ -103,6 +103,54 @@
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
+ */
+
+/**
+ * @swagger
+ * /api/v1/bookings/reservations:
+ *   get:
+ *     summary: Get all reservations for host's listings
+ *     tags: [Bookings]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 10
+ *     responses:
+ *       200:
+ *         description: Paginated list of reservations
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Booking'
+ *                 meta:
+ *                   type: object
+ *                   properties:
+ *                     total:
+ *                       type: integer
+ *                     page:
+ *                       type: integer
+ *                     limit:
+ *                       type: integer
+ *                     totalPages:
+ *                       type: integer
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Only hosts can access reservations
  */
 
 /**
@@ -282,16 +330,20 @@ import {
   getBookingById,
   createBooking,
   deleteBooking,
+  getHostReservations,
 } from "../../controllers/bookings.controller";
-import { authenticate, requireGuest } from "../../middlewares/auth.middleware";
+import { authenticate, requireGuest, requireHost } from "../../middlewares/auth.middleware";
 
 const router = Router();
 
-// Public routes
-router.get("/", getAllBookings);
+// Protected routes — must be before /:id to avoid conflict
+router.get("/reservations", authenticate, requireHost, getHostReservations);
+
+// My bookings
+router.get("/", authenticate, getAllBookings);
 router.get("/:id", getBookingById);
 
-// Protected routes
+// Create & cancel
 router.post("/", authenticate, requireGuest, createBooking);
 router.delete("/:id", authenticate, deleteBooking);
 
