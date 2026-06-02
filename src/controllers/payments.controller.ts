@@ -7,7 +7,7 @@ import stripe from "../config/stripe";
 export const getPaymentMethods = async (req: any, res: Response) => {
   try {
     const methods = await prisma.paymentMethod.findMany({
-      where: { userId: req.user.id },
+      where: { userId: req.userId },
       orderBy: { createdAt: "desc" },
     });
     res.json({ data: methods });
@@ -25,7 +25,7 @@ export const addPaymentMethod = async (req: any, res: Response) => {
     }
     if (isDefault) {
       await prisma.paymentMethod.updateMany({
-        where: { userId: req.user.id },
+        where: { userId: req.userId },
         data: { isDefault: false },
       });
     }
@@ -35,7 +35,7 @@ export const addPaymentMethod = async (req: any, res: Response) => {
         label,
         details: details || {},
         isDefault: isDefault || false,
-        userId: req.user.id,
+        userId: req.userId,
       },
     });
     res.status(201).json({ data: method, message: "Payment method added" });
@@ -49,7 +49,7 @@ export const deletePaymentMethod = async (req: any, res: Response) => {
   try {
     const { id } = req.params;
     await prisma.paymentMethod.delete({
-      where: { id, userId: req.user.id },
+      where: { id, userId: req.userId },
     });
     res.json({ message: "Payment method removed" });
   } catch (error) {
@@ -62,7 +62,7 @@ export const setDefaultPaymentMethod = async (req: any, res: Response) => {
   try {
     const { id } = req.params;
     await prisma.paymentMethod.updateMany({
-      where: { userId: req.user.id },
+      where: { userId: req.userId },
       data: { isDefault: false },
     });
     await prisma.paymentMethod.update({
@@ -81,7 +81,7 @@ export const setDefaultPaymentMethod = async (req: any, res: Response) => {
 export const getPayoutMethods = async (req: any, res: Response) => {
   try {
     const methods = await prisma.payoutMethod.findMany({
-      where: { userId: req.user.id },
+      where: { userId: req.userId },
       orderBy: { createdAt: "desc" },
     });
     res.json({ data: methods });
@@ -99,7 +99,7 @@ export const addPayoutMethod = async (req: any, res: Response) => {
     }
     if (isDefault) {
       await prisma.payoutMethod.updateMany({
-        where: { userId: req.user.id },
+        where: { userId: req.userId },
         data: { isDefault: false },
       });
     }
@@ -109,7 +109,7 @@ export const addPayoutMethod = async (req: any, res: Response) => {
         label,
         details: details || {},
         isDefault: isDefault || false,
-        userId: req.user.id,
+        userId: req.userId,
       },
     });
     res.status(201).json({ data: method, message: "Payout method added" });
@@ -123,7 +123,7 @@ export const deletePayoutMethod = async (req: any, res: Response) => {
   try {
     const { id } = req.params;
     await prisma.payoutMethod.delete({
-      where: { id, userId: req.user.id },
+      where: { id, userId: req.userId },
     });
     res.json({ message: "Payout method removed" });
   } catch (error) {
@@ -132,7 +132,7 @@ export const deletePayoutMethod = async (req: any, res: Response) => {
   }
 };
 
-// ─── Create Payment Intent (called when user taps Reserve) ────
+// ─── Create Payment Intent ────────────────────────────────────
 
 export const createPaymentIntent = async (req: any, res: Response) => {
   try {
@@ -150,7 +150,7 @@ export const createPaymentIntent = async (req: any, res: Response) => {
       return res.status(404).json({ error: "Booking not found" });
     }
 
-    if (booking.guestId !== req.user.id) {
+    if (booking.guestId !== req.userId) {
       return res.status(403).json({ error: "Not your booking" });
     }
 
@@ -158,33 +158,36 @@ export const createPaymentIntent = async (req: any, res: Response) => {
       return res.status(400).json({ error: "Payment can only be created for pending bookings" });
     }
 
-    const amount = Math.round((booking.totalPrice || 0) * 100);
+    const baseAmount = booking.totalPrice || 0;
+    const cleaningFee = Math.round(baseAmount * 0.1);
+    const serviceFee = Math.round(baseAmount * 0.12);
+    const totalAmount = baseAmount + cleaningFee + serviceFee;
+    const amount = Math.round(totalAmount * 100);
 
     const paymentIntent = await stripe.paymentIntents.create({
       amount,
       currency: "usd",
       metadata: {
         bookingId: booking.id,
-        userId: req.user.id,
+        userId: req.userId,
         listingId: booking.listingId,
       },
     });
 
-    // Save payment record
     await prisma.payment.create({
       data: {
-        amount: booking.totalPrice || 0,
+        amount: totalAmount,
         currency: "usd",
         status: "PENDING",
         bookingId: booking.id,
-        userId: req.user.id,
+        userId: req.userId,
       },
     });
 
     res.json({
       clientSecret: paymentIntent.client_secret,
       publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
-      amount: booking.totalPrice,
+      amount: totalAmount,
     });
   } catch (error: any) {
     console.error("createPaymentIntent error:", error);
@@ -197,20 +200,15 @@ export const createPaymentIntent = async (req: any, res: Response) => {
           data: { status: "CANCELLED" },
         });
       } catch (cleanupError) {
-        console.error("Failed to cancel pending booking after payment intent failure:", cleanupError);
+        console.error("Failed to cancel pending booking:", cleanupError);
       }
     }
 
-    const errorMessage =
-      error?.message ||
-      error?.raw?.message ||
-      "Unable to process payment. Please try again later.";
-
-    res.status(500).json({ error: errorMessage });
+    res.status(500).json({ error: error?.message || "Unable to process payment. Please try again." });
   }
 };
 
-// ─── Confirm Payment (called after Stripe confirms) ───────────
+// ─── Confirm Payment ──────────────────────────────────────────
 
 export const confirmPayment = async (req: any, res: Response) => {
   try {
@@ -219,25 +217,23 @@ export const confirmPayment = async (req: any, res: Response) => {
     const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
 
     if (paymentIntent.status === "succeeded") {
-      // Update payment status
       await prisma.payment.updateMany({
         where: { bookingId },
         data: { status: "COMPLETED" },
       });
 
-      // Confirm the booking
       await prisma.booking.update({
         where: { id: bookingId },
         data: { status: "CONFIRMED" },
       });
 
-      // Notify host
       const booking = await prisma.booking.findUnique({
         where: { id: bookingId },
         include: { listing: true, guest: true },
       });
 
       if (booking) {
+        // Notify host
         await prisma.notification.create({
           data: {
             type: "BOOKING_CONFIRMED",
@@ -249,10 +245,11 @@ export const confirmPayment = async (req: any, res: Response) => {
           },
         });
 
+        // Notify guest
         await prisma.notification.create({
           data: {
             type: "BOOKING_CONFIRMED",
-            title: "Payment Successful!",
+            title: "Payment Successful! 🎉",
             message: `Your payment for ${booking.listing.title} was successful. Check-in: ${new Date(booking.checkIn).toDateString()}`,
             userId: booking.guestId,
             bookingId: booking.id,
@@ -276,7 +273,7 @@ export const confirmPayment = async (req: any, res: Response) => {
 export const getPayments = async (req: any, res: Response) => {
   try {
     const payments = await prisma.payment.findMany({
-      where: { userId: req.user.id },
+      where: { userId: req.userId },
       orderBy: { createdAt: "desc" },
     });
     res.json({ data: payments });
@@ -291,7 +288,7 @@ export const getPayments = async (req: any, res: Response) => {
 export const getPayouts = async (req: any, res: Response) => {
   try {
     const payouts = await prisma.payout.findMany({
-      where: { userId: req.user.id },
+      where: { userId: req.userId },
       orderBy: { createdAt: "desc" },
     });
     res.json({ data: payouts });
