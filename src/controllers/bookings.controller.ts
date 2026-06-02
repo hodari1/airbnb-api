@@ -249,3 +249,46 @@ export const deleteBooking = async (req: AuthRequest, res: Response, next: NextF
     next(error);
   }
 };
+
+// GET /bookings/reservations - Get all reservations for host's listings
+export const getHostReservations = async (req: AuthRequest, res: Response, next: NextFunction) => {
+  try {
+    const hostId = req.userId!;
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 10;
+    const skip = (page - 1) * limit;
+
+    const [bookings, total] = await Promise.all([
+      prisma.booking.findMany({
+        where: {
+          listing: { hostId },
+        },
+        skip,
+        take: limit,
+        include: {
+          guest: { select: { id: true, name: true, avatar: true, email: true } },
+          listing: {
+            select: {
+              id: true,
+              title: true,
+              location: true,
+              pricePerNight: true,
+              photos: { take: 1 },
+            },
+          },
+        },
+        orderBy: { createdAt: "desc" },
+      }),
+      prisma.booking.count({
+        where: { listing: { hostId } },
+      }),
+    ]);
+
+    res.json({
+      data: bookings,
+      meta: { total, page, limit, totalPages: Math.ceil(total / limit) },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
