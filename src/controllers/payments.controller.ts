@@ -186,9 +186,27 @@ export const createPaymentIntent = async (req: any, res: Response) => {
       publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
       amount: booking.totalPrice,
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error("createPaymentIntent error:", error);
-    res.status(500).json({ error: "Failed to create payment intent" });
+
+    const bookingId = req.body?.bookingId;
+    if (bookingId) {
+      try {
+        await prisma.booking.updateMany({
+          where: { id: bookingId, status: "PENDING" },
+          data: { status: "CANCELLED" },
+        });
+      } catch (cleanupError) {
+        console.error("Failed to cancel pending booking after payment intent failure:", cleanupError);
+      }
+    }
+
+    const errorMessage =
+      error?.message ||
+      error?.raw?.message ||
+      "Unable to process payment. Please try again later.";
+
+    res.status(500).json({ error: errorMessage });
   }
 };
 
