@@ -5,24 +5,33 @@ import { AuthRequest } from "../middlewares/auth.middleware";
 import { sendEmail } from "../config/email";
 import { bookingConfirmationEmail, bookingCancellationEmail } from "../templates/emails";
 
-// GET /bookings - Get all bookings
+// GET /bookings - Get my bookings only
 export const getAllBookings = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    const userId = (req as any).userId;
     const page = parseInt(req.query.page as string) || 1;
     const limit = parseInt(req.query.limit as string) || 10;
     const skip = (page - 1) * limit;
 
     const [bookings, total] = await Promise.all([
       prisma.booking.findMany({
+        where: { guestId: userId },
         skip,
         take: limit,
         include: {
           guest: { select: { name: true, avatar: true } },
-          listing: { select: { title: true, location: true } },
+          listing: {
+            select: {
+              title: true,
+              location: true,
+              pricePerNight: true,
+              photos: { take: 1 },
+            },
+          },
         },
         orderBy: { createdAt: "desc" },
       }),
-      prisma.booking.count(),
+      prisma.booking.count({ where: { guestId: userId } }),
     ]);
 
     res.json({
