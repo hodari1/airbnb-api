@@ -366,6 +366,74 @@
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  */
+
+/**
+ * @swagger
+ * /api/v1/listings/{id}/photos:
+ *   post:
+ *     summary: Upload photos for a listing
+ *     tags: [Listings]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Listing ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               image:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                   format: binary
+ *     responses:
+ *       200:
+ *         description: Photos uploaded successfully
+ *       400:
+ *         description: No files uploaded or max photos reached
+ *       403:
+ *         description: Forbidden
+ *       404:
+ *         description: Listing not found
+ */
+
+/**
+ * @swagger
+ * /api/v1/listings/{id}/photos/{photoId}:
+ *   delete:
+ *     summary: Delete a listing photo
+ *     tags: [Listings]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Listing ID
+ *       - in: path
+ *         name: photoId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Photo ID
+ *     responses:
+ *       200:
+ *         description: Photo deleted successfully
+ *       403:
+ *         description: Forbidden
+ *       404:
+ *         description: Photo not found
+ */
 import { Router } from "express";
 import {
   getListings,
@@ -376,8 +444,14 @@ import {
   updateListing,
   deleteListing,
 } from "../../controllers/listings.controller";
+import {
+  uploadListingPhotos,
+  deleteListingPhoto,
+} from "../../controllers/upload.controller";
 import { authenticate, requireHost } from "../../middlewares/auth.middleware";
+import multer from "multer";
 
+const upload = multer({ storage: multer.memoryStorage() });
 const router = Router();
 
 // Public routes
@@ -390,5 +464,9 @@ router.get("/:id", getListing);
 router.post("/", authenticate, requireHost, createListing);
 router.put("/:id", authenticate, updateListing);
 router.delete("/:id", authenticate, deleteListing);
+
+// Photo routes
+router.post("/:id/photos", authenticate, upload.array("image"), uploadListingPhotos);
+router.delete("/:id/photos/:photoId", authenticate, deleteListingPhoto);
 
 export default router;
