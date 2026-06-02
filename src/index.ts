@@ -2,11 +2,13 @@ import 'dotenv/config';
 import express, { Request, Response, NextFunction } from "express";
 import compression from "compression";
 import morgan from "morgan";
+import cron from "node-cron";
 import { setupSwagger } from "./config/swagger";
 import { generalLimiter, strictLimiter } from "./middlewares/rateLimiter";
 import { errorHandler } from "./middlewares/errorHandler";
 import v1Router from "./routes/v1/index";
 import aiRoutes from "./routes/v1/ai.routes";
+import prisma from "./prisma";
 
 const app = express();
 app.set("trust proxy", 1);
@@ -33,7 +35,7 @@ app.get("/health", (req: Request, res: Response) => {
   });
 });
 
-// ✅ Deprecation middleware — warns clients hitting unversioned /api/* routes
+// ✅ Deprecation middleware
 app.use("/api", (req: Request, res: Response, next: NextFunction) => {
   if (!req.path.startsWith("/v1")) {
     res.set("Deprecation", "true");
@@ -69,6 +71,28 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);
   res.status(500).json({ error: "Something went wrong" });
 });
+
+// ─── Cron Job: Auto-delete cancelled bookings after 1 minute ──
+cron.schedule("* * * * *", async () => {
+  try {
+    const oneMinuteAgo = new Date(Date.now() - 60 * 1000);
+
+    const deleted = await prisma.booking.deleteMany({
+      where: {
+        status: "CANCELLED",
+        updatedAt: { lt: oneMinuteAgo },
+      },
+    });
+
+    if (deleted.count > 0) {
+      console.log(`🗑️  Auto-deleted ${deleted.count} cancelled booking(s)`);
+    }
+  } catch (error) {
+    console.error("Cron job error:", error);
+  }
+});
+
+console.log("⏰ Cron job started: cancelled bookings auto-delete after 1 minute");
 
 app.listen(PORT, () => {
   console.log(`🚀 Server is running on http://localhost:${PORT}`);
