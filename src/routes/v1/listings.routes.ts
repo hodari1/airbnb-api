@@ -434,6 +434,43 @@
  *       404:
  *         description: Photo not found
  */
+
+/**
+ * @swagger
+ * /api/v1/listings/{id}/geocode:
+ *   post:
+ *     summary: Geocode a single listing
+ *     tags: [Listings]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Listing ID
+ *     responses:
+ *       200:
+ *         description: Coordinates updated
+ *       400:
+ *         description: Could not geocode location
+ *       404:
+ *         description: Listing not found
+ */
+
+/**
+ * @swagger
+ * /api/v1/listings/geocode-all:
+ *   post:
+ *     summary: Geocode all listings with missing coordinates
+ *     tags: [Listings]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Geocoded listings count and results
+ */
 import { Router } from "express";
 import {
   getListings,
@@ -444,6 +481,7 @@ import {
   updateListing,
   deleteListing,
   geocodeListing,
+  geocodeAllListings,
 } from "../../controllers/listings.controller";
 import {
   uploadListingPhotos,
@@ -461,7 +499,8 @@ router.get("/stats", getListingsStats);
 router.get("/", getListings);
 router.get("/:id", getListing);
 
-// Protected routes
+// Protected routes — geocode-all must be before /:id
+router.post("/geocode-all", authenticate, geocodeAllListings);
 router.post("/", authenticate, requireHost, createListing);
 router.put("/:id", authenticate, updateListing);
 router.delete("/:id", authenticate, deleteListing);
@@ -470,6 +509,7 @@ router.delete("/:id", authenticate, deleteListing);
 router.post("/:id/photos", authenticate, upload.array("image"), uploadListingPhotos);
 router.delete("/:id/photos/:photoId", authenticate, deleteListingPhoto);
 
+// Geocode single listing
 router.post("/:id/geocode", authenticate, geocodeListing);
 
 export default router;

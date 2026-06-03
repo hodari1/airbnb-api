@@ -190,7 +190,6 @@ export const createListing = async (req: AuthRequest, res: Response, next: NextF
       return;
     }
 
-    // Auto-geocode the location
     const coords = await geocodeLocation(parsed.data.location);
 
     const listing = await prisma.listing.create({
@@ -234,7 +233,6 @@ export const updateListing = async (req: AuthRequest, res: Response, next: NextF
       return;
     }
 
-    // Auto-geocode if location changed
     let coords = null;
     if (parsed.data.location && parsed.data.location !== existing.location) {
       coords = await geocodeLocation(parsed.data.location);
@@ -286,7 +284,7 @@ export const deleteListing = async (req: AuthRequest, res: Response, next: NextF
   }
 };
 
-// POST /listings/:id/geocode — update coordinates for existing listing
+// POST /listings/:id/geocode — update coordinates for a single listing
 export const geocodeListing = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id as string;
@@ -310,6 +308,41 @@ export const geocodeListing = async (req: AuthRequest, res: Response, next: Next
 
     clearCacheByPrefix("listings:");
     res.json({ message: "Coordinates updated", latitude: coords.latitude, longitude: coords.longitude });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// POST /listings/geocode-all — geocode all listings with missing coordinates
+export const geocodeAllListings = async (req: AuthRequest, res: Response, next: NextFunction) => {
+  try {
+    const listings = await prisma.listing.findMany({
+      where: {
+        OR: [{ latitude: null }, { longitude: null }],
+      },
+    });
+
+    const results = [];
+    for (const listing of listings) {
+      try {
+        const coords = await geocodeLocation(listing.location + ", Rwanda");
+        if (coords) {
+          await prisma.listing.update({
+            where: { id: listing.id },
+            data: { latitude: coords.latitude, longitude: coords.longitude },
+          });
+          results.push({ id: listing.id, title: listing.title, ...coords });
+          console.log(`✅ Geocoded: ${listing.title} → ${coords.latitude}, ${coords.longitude}`);
+        }
+      } catch (err) {
+        console.error(`Failed to geocode listing ${listing.id}:`, err);
+      }
+      // Rate limit: 1 request per second
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+    }
+
+    clearCacheByPrefix("listings:");
+    res.json({ message: `Geocoded ${results.length} listings`, results });
   } catch (error) {
     next(error);
   }
