@@ -54,6 +54,8 @@ model Listing {
   reviews       Review[]
   photos        ListingPhoto[]
   notifications Notification[]
+  latitude  Float?
+  longitude Float?
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
   wishlists     Wishlist[]

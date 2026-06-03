@@ -113,6 +113,8 @@ export const ListingScalarFieldEnum = {
   amenities: 'amenities',
   rating: 'rating',
   hostId: 'hostId',
+  latitude: 'latitude',
+  longitude: 'longitude',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

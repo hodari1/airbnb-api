@@ -443,6 +443,7 @@ import {
   createListing,
   updateListing,
   deleteListing,
+  geocodeListing,
 } from "../../controllers/listings.controller";
 import {
   uploadListingPhotos,
@@ -468,5 +469,7 @@ router.delete("/:id", authenticate, deleteListing);
 // Photo routes
 router.post("/:id/photos", authenticate, upload.array("image"), uploadListingPhotos);
 router.delete("/:id/photos/:photoId", authenticate, deleteListingPhoto);
+
+router.post("/:id/geocode", authenticate, geocodeListing);
 
 export default router;

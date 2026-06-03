@@ -4,6 +4,32 @@ import { AuthRequest } from "../middlewares/auth.middleware";
 import { createListingSchema, updateListingSchema } from "../validators/listings.validator";
 import { getCache, setCache, clearCacheByPrefix } from "../config/cache";
 
+// Helper function to geocode location using OpenStreetMap Nominatim
+const geocodeLocation = async (location: string): Promise<{ latitude: number; longitude: number } | null> => {
+  try {
+    const encoded = encodeURIComponent(location);
+    const response = await fetch(
+      `https://nominatim.openstreetmap.org/search?q=${encoded}&format=json&limit=1`,
+      {
+        headers: {
+          "User-Agent": "AirbnbCloneApp/1.0",
+        },
+      }
+    );
+    const data = await response.json();
+    if (data && data.length > 0) {
+      return {
+        latitude: parseFloat(data[0].lat),
+        longitude: parseFloat(data[0].lon),
+      };
+    }
+    return null;
+  } catch (error) {
+    console.error("Geocoding error:", error);
+    return null;
+  }
+};
+
 // GET /listings
 export const getListings = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
@@ -164,10 +190,15 @@ export const createListing = async (req: AuthRequest, res: Response, next: NextF
       return;
     }
 
+    // Auto-geocode the location
+    const coords = await geocodeLocation(parsed.data.location);
+
     const listing = await prisma.listing.create({
       data: {
         ...parsed.data,
         hostId: req.userId!,
+        latitude: coords?.latitude || null,
+        longitude: coords?.longitude || null,
       },
       include: {
         host: { select: { id: true, name: true, email: true, avatar: true } },
@@ -203,9 +234,21 @@ export const updateListing = async (req: AuthRequest, res: Response, next: NextF
       return;
     }
 
+    // Auto-geocode if location changed
+    let coords = null;
+    if (parsed.data.location && parsed.data.location !== existing.location) {
+      coords = await geocodeLocation(parsed.data.location);
+    }
+
     const listing = await prisma.listing.update({
       where: { id },
-      data: parsed.data,
+      data: {
+        ...parsed.data,
+        ...(coords && {
+          latitude: coords.latitude,
+          longitude: coords.longitude,
+        }),
+      },
       include: {
         host: { select: { id: true, name: true, email: true, avatar: true } },
       },
@@ -238,6 +281,35 @@ export const deleteListing = async (req: AuthRequest, res: Response, next: NextF
 
     clearCacheByPrefix("listings:");
     res.json({ message: "Listing deleted successfully" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// POST /listings/:id/geocode — update coordinates for existing listing
+export const geocodeListing = async (req: AuthRequest, res: Response, next: NextFunction) => {
+  try {
+    const id = req.params.id as string;
+
+    const existing = await prisma.listing.findUnique({ where: { id } });
+    if (!existing) {
+      res.status(404).json({ error: "Listing not found" });
+      return;
+    }
+
+    const coords = await geocodeLocation(existing.location);
+    if (!coords) {
+      res.status(400).json({ error: "Could not geocode location" });
+      return;
+    }
+
+    await prisma.listing.update({
+      where: { id },
+      data: { latitude: coords.latitude, longitude: coords.longitude },
+    });
+
+    clearCacheByPrefix("listings:");
+    res.json({ message: "Coordinates updated", latitude: coords.latitude, longitude: coords.longitude });
   } catch (error) {
     next(error);
   }
