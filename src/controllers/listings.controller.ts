@@ -76,7 +76,7 @@ export const searchListings = async (req: AuthRequest, res: Response, next: Next
     const limit = parseInt(req.query.limit as string) || 10;
     const skip = (page - 1) * limit;
 
-    const { location, type, minPrice, maxPrice, guests } = req.query;
+    const { location, type, minPrice, maxPrice, guests, checkIn, checkOut } = req.query;
 
     const where: any = {};
     if (location) where.location = { contains: location as string, mode: "insensitive" };
@@ -87,6 +87,27 @@ export const searchListings = async (req: AuthRequest, res: Response, next: Next
       if (maxPrice) where.pricePerNight.lte = parseFloat(maxPrice as string);
     }
     if (guests) where.guests = { gte: parseInt(guests as string) };
+
+    let validDateFilter = false;
+    const bookingFilters: any = {
+      status: { in: ["PENDING", "CONFIRMED"] },
+    };
+
+    if (checkIn && checkOut) {
+      const checkInDate = new Date(checkIn as string);
+      const checkOutDate = new Date(checkOut as string);
+      if (!isNaN(checkInDate.getTime()) && !isNaN(checkOutDate.getTime()) && checkInDate < checkOutDate) {
+        bookingFilters.checkIn = { lt: checkOutDate };
+        bookingFilters.checkOut = { gt: checkInDate };
+        validDateFilter = true;
+      }
+    }
+
+    if (validDateFilter) {
+      where.bookings = {
+        none: bookingFilters,
+      };
+    }
 
     const [listings, total] = await Promise.all([
       prisma.listing.findMany({
