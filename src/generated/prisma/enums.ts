@@ -22,7 +22,11 @@ export const ListingType = {
   APARTMENT: 'APARTMENT',
   HOUSE: 'HOUSE',
   VILLA: 'VILLA',
-  CABIN: 'CABIN'
+  CABIN: 'CABIN',
+  STUDIO: 'STUDIO',
+  LOFT: 'LOFT',
+  COTTAGE: 'COTTAGE',
+  BUNGALOW: 'BUNGALOW'
 } as const
 
 export type ListingType = (typeof ListingType)[keyof typeof ListingType]

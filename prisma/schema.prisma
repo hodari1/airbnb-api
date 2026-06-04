@@ -141,6 +141,10 @@ enum ListingType {
   HOUSE
   VILLA
   CABIN
+  STUDIO
+  LOFT
+  COTTAGE
+  BUNGALOW
 }
 
 enum BookingStatus {
